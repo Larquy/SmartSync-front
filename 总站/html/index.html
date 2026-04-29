@@ -68,10 +68,10 @@
                     <div class="kpi-value">78.6%</div>
                     <div class="kpi-change positive"><span>↑</span>较昨日 +2.4%</div>
                 </div>
-                <div class="kpi-card alarm">
-                    <div class="kpi-title">告警数量</div>
-                    <div class="kpi-value">3</div>
-                    <div class="kpi-change danger"><span>!</span>待处理</div>
+                <div class="kpi-card" id="alarmCard">
+                    <div class="kpi-title">警报数量</div>
+                    <div class="kpi-value" id="alarmValue">3</div>
+                    <div class="kpi-change" id="alarmStatus"><span>!</span>待处理</div>
                 </div>
             </div>
 
@@ -196,7 +196,7 @@
                 <!-- 紧急求助卡片 -->
                 <div class="content-card emergency-card">
                     <div class="card-header">
-                        <h3 class="card-title">紧急求助实时告警</h3>
+                        <h3 class="card-title">紧急求助实时警报</h3>
                         <a href="emergency.html" class="card-more">更多 ›</a>
                     </div>
                     <div class="alarm-list">

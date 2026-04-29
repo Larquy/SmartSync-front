@@ -1,0 +1,78 @@
+/* 警报列表组件 */
+
+.alarm-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.alarm-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.alarm-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fcc419;
+}
+
+.alarm-indicator.urgent {
+    background: #ff6b6b;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(255, 107, 107, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+    }
+}
+
+.alarm-content {
+    flex: 1;
+}
+
+.alarm-time {
+    font-size: 10px;
+    color: #adb5bd;
+    margin-bottom: 2px;
+}
+
+.alarm-location {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 2px;
+}
+
+.alarm-desc {
+    font-size: 11px;
+    color: #868e96;
+}
+
+.alarm-btn {
+    padding: 8px 14px;
+    background: #fcc419;
+    color: #495057;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.alarm-btn.urgent {
+    background: #ff6b6b;
+    color: #fff;
+}

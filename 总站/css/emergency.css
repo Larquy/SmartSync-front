@@ -43,7 +43,7 @@
     color: #868e96;
 }
 
-/* 告警列表 */
+/* 警报列表 */
 .alarm-list {
     display: flex;
     flex-direction: column;
