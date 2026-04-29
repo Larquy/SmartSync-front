@@ -1,0 +1,521 @@
+/* 首页样式 - 柔和舒适配色 */
+
+/* KPI指标卡片 */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+}
+
+.kpi-card.alarm {
+    border-left: 3px solid #ff6b6b;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(92, 124, 250, 0.1);
+}
+
+.kpi-title {
+    font-size: 12px;
+    color: #868e96;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.kpi-change {
+    font-size: 11px;
+    color: #868e96;
+}
+
+.kpi-change.positive {
+    color: #40c057;
+}
+
+.kpi-change.negative {
+    color: #ff6b6b;
+}
+
+.kpi-change.danger {
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+/* 内容网格 - 三列布局 */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* 内容卡片 */
+.content-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+}
+
+.content-card.emergency-card {
+    background: #fff9db;
+    border: 1px solid #ffe066;
+}
+
+/* 院区数字孪生区域 */
+.area-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.area-item {
+    padding: 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.area-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.area-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.area-density {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.area-density.high {
+    background: #ffe3e3;
+    color: #c92a2a;
+}
+
+.area-density.medium {
+    background: #fff3bf;
+    color: #e67700;
+}
+
+.area-density.low {
+    background: #d3f9d8;
+    color: #2b8a3e;
+}
+
+.area-info {
+    font-size: 11px;
+    color: #868e96;
+    margin-bottom: 10px;
+}
+
+.area-bar {
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.area-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.density-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #e9ecef;
+    font-size: 11px;
+    color: #868e96;
+}
+
+.legend-bar {
+    flex: 1;
+    height: 4px;
+    background: linear-gradient(to right, #51cf66, #fcc419, #ff6b6b);
+    border-radius: 2px;
+}
+
+/* 科室负载列表 */
+.dept-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dept-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dept-name {
+    font-size: 12px;
+    color: #495057;
+    flex: 0 0 70px;
+}
+
+.dept-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dept-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #212529;
+    flex: 0 0 35px;
+}
+
+.dept-bar {
+    flex: 1;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.dept-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.dept-fill.danger {
+    background: #ff6b6b;
+}
+
+.dept-fill.warning {
+    background: #fcc419;
+}
+
+.dept-fill.normal {
+    background: #51cf66;
+}
+
+.dept-percent {
+    font-size: 11px;
+    color: #868e96;
+    flex: 0 0 35px;
+    text-align: right;
+}
+
+/* 告警列表 */
+.alarm-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.alarm-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.alarm-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fcc419;
+}
+
+.alarm-indicator.urgent {
+    background: #ff6b6b;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(255, 107, 107, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+    }
+}
+
+.alarm-content {
+    flex: 1;
+}
+
+.alarm-time {
+    font-size: 10px;
+    color: #adb5bd;
+    margin-bottom: 2px;
+}
+
+.alarm-location {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 2px;
+}
+
+.alarm-desc {
+    font-size: 11px;
+    color: #868e96;
+}
+
+.alarm-btn {
+    padding: 8px 14px;
+    background: #fcc419;
+    color: #495057;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.alarm-btn.urgent {
+    background: #ff6b6b;
+    color: #fff;
+}
+
+/* 患者来源分布图 */
+.source-distribution-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.source-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.source-pie {
+    flex-shrink: 0;
+}
+
+.source-legend {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-label {
+    flex: 1;
+    font-size: 13px;
+    color: #495057;
+}
+
+.legend-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #212529;
+}
+
+/* 流量趋势卡片 */
+.trend-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.trend-chart {
+    height: 180px;
+    position: relative;
+    margin-top: 12px;
+    padding-left: 16px;
+}
+
+.trend-chart.line-chart {
+    height: 200px;
+}
+
+.line-container {
+    height: 100%;
+    position: relative;
+}
+
+.line-chart-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.trend-y-axis {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #adb5bd;
+}
+
+.trend-x-axis {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    font-size: 11px;
+    color: #adb5bd;
+}
+
+/* 系统运行状态卡片 */
+.system-status-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.system-status-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #40c057;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff6b6b;
+}
+
+.status-dot.online {
+    background: #51cf66;
+}
+
+.system-status-grid {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.status-section {
+    flex: 1;
+}
+
+.status-section h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.status-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-label {
+    flex: 1;
+    font-size: 12px;
+    color: #495057;
+}
+
+.item-value {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.item-value.success {
+    color: #40c057;
+}
+
+.item-value.danger {
+    color: #ff6b6b;
+}
+
+.item-value.warning {
+    color: #fcc419;
+}
+
+.item-value.normal {
+    color: #5c7cfa;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .source-content {
+        flex-direction: column;
+    }
+    .system-status-grid {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智环引诊 - 紧急情况</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/emergency.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>智环引诊</h1>
+                <p>云端调度中心</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dispatch.html" class="nav-link">调度管理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="emergency.html" class="nav-link active">紧急情况</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">数据分析</a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">系统设置</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部头部 -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2>紧急情况处理中心</h2>
+                    <p style="font-size: 13px; color: #666; margin-top: 4px;">实时监控与响应</p>
+                </div>
+                <div class="header-right">
+                    <span class="date-info" id="dateInfo">2026-04-29 14:35:28</span>
+                    <button class="btn danger">紧急广播</button>
+                    <button class="btn success">导出记录</button>
+                </div>
+            </header>
+
+            <!-- 统计卡片 -->
+            <div class="stats-grid">
+                <div class="stat-card danger">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">待处理告警</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">处理中</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-value">86</div>
+                    <div class="stat-label">今日已处理</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-value">3.2min</div>
+                    <div class="stat-label">平均响应时间</div>
+                </div>
+            </div>
+
+            <!-- 紧急告警列表 -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">实时告警列表</h4>
+                    <span style="font-size: 12px; color: #666;">共 8 条告警</span>
+                </div>
+                <div class="alarm-list">
+                    <div class="alarm-item danger">
+                        <div class="alarm-info">
+                            <div class="alarm-content">
+                                <div class="alarm-time">14:35:28</div>
+                                <div class="alarm-location">2F-洗手间附近</div>
+                                <div class="alarm-desc">患者触发紧急求助按钮，需要立即响应</div>
+                            </div>
+                        </div>
+                        <div class="alarm-actions">
+                            <button class="alarm-btn primary" onclick="showPatientDetail('王大爷')">查看详情</button>
+                            <button class="alarm-btn success">立即处理</button>
+                        </div>
+                    </div>
+
+                    <div class="alarm-item danger">
+                        <div class="alarm-info">
+                            <div class="alarm-content">
+                                <div class="alarm-time">14:33:15</div>
+                                <div class="alarm-location">1F-电梯厅</div>
+                                <div class="alarm-desc">患者需要轮椅协助通行</div>
+                            </div>
+                        </div>
+                        <div class="alarm-actions">
+                            <button class="alarm-btn primary" onclick="showPatientDetail('李女士')">查看详情</button>
+                            <button class="alarm-btn success">立即处理</button>
+                        </div>
+                    </div>
+
+                    <div class="alarm-item">
+                        <div class="alarm-info">
+                            <div class="alarm-content">
+                                <div class="alarm-time">14:28:42</div>
+                                <div class="alarm-location">3F-检验科门口</div>
+                                <div class="alarm-desc">患者等待时间过长，建议分流</div>
+                            </div>
+                        </div>
+                        <div class="alarm-actions">
+                            <button class="alarm-btn secondary">忽略</button>
+                            <button class="alarm-btn primary">分流处理</button>
+                        </div>
+                    </div>
+
+                    <div class="alarm-item">
+                        <div class="alarm-info">
+                            <div class="alarm-content">
+                                <div class="alarm-time">14:25:10</div>
+                                <div class="alarm-location">医技楼B区</div>
+                                <div class="alarm-desc">设备维护提醒 - NFC终端#12需要校准</div>
+                            </div>
+                        </div>
+                        <div class="alarm-actions">
+                            <button class="alarm-btn secondary">延后</button>
+                            <button class="alarm-btn primary">安排维护</button>
+                        </div>
+                    </div>
+
+                    <div class="alarm-item success">
+                        <div class="alarm-info">
+                            <div class="alarm-content">
+                                <div class="alarm-time">14:20:33</div>
+                                <div class="alarm-location">1F-门诊大厅</div>
+                                <div class="alarm-desc">患者已成功引导至心内科诊室</div>
+                            </div>
+                        </div>
+                        <div class="alarm-actions">
+                            <button class="alarm-btn secondary">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 历史记录 -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">今日处理记录</h4>
+                </div>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <table style="width: 100%; font-size: 12px;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 10px; text-align: left; color: #666;">时间</th>
+                                <th style="padding: 10px; text-align: left; color: #666;">位置</th>
+                                <th style="padding: 10px; text-align: left; color: #666;">类型</th>
+                                <th style="padding: 10px; text-align: left; color: #666;">状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #f0f0f0;">
+                                <td style="padding: 10px;">14:20</td>
+                                <td style="padding: 10px;">门诊大厅</td>
+                                <td style="padding: 10px;">引导服务</td>
+                                <td style="padding: 10px; color: #4caf50;">已完成</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f0f0f0;">
+                                <td style="padding: 10px;">14:15</td>
+                                <td style="padding: 10px;">电梯厅</td>
+                                <td style="padding: 10px;">轮椅协助</td>
+                                <td style="padding: 10px; color: #4caf50;">已完成</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f0f0f0;">
+                                <td style="padding: 10px;">14:10</td>
+                                <td style="padding: 10px;">洗手间</td>
+                                <td style="padding: 10px;">紧急求助</td>
+                                <td style="padding: 10px; color: #4caf50;">已完成</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f0f0f0;">
+                                <td style="padding: 10px;">13:58</td>
+                                <td style="padding: 10px;">检验科</td>
+                                <td style="padding: 10px;">分流建议</td>
+                                <td style="padding: 10px; color: #4caf50;">已完成</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 患者详情弹窗 -->
+    <div class="modal-overlay" id="patientModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">患者详情</span>
+                <span class="modal-close" onclick="closeModal()">×</span>
+            </div>
+            <div class="modal-body">
+                <div class="patient-info">
+                    <div class="patient-avatar"></div>
+                    <div class="patient-details">
+                        <span class="patient-name" id="patientName">王大爷</span>
+                        <span class="patient-id">就诊ID: #1082</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">年龄</span>
+                    <span class="info-value">78岁</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">性别</span>
+                    <span class="info-value">男</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">就诊科室</span>
+                    <span class="info-value">心内科</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">当前位置</span>
+                    <span class="info-value">2F-洗手间附近</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">求助类型</span>
+                    <span class="info-value">紧急求助</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">病史摘要</span>
+                    <span class="info-value">高血压Ⅱ期，需定期复查</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal()">关闭</button>
+                <button class="btn success">立即派单</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/emergency.js"></script>
+</body>
+
+</html>
