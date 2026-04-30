@@ -9,7 +9,7 @@
     "routes": [
         {
             "src": "/",
-            "dest": "/html/index.html"
+            "dest": "/control-center/html/index.html"
         }
     ]
 }
