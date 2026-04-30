@@ -1,15 +1,16 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "index.html",
-            "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/",
-            "dest": "/control-center/html/index.html"
-        }
-    ]
+  "routes": [
+    { "src": "/", "dest": "/control-center/html/index.html" },
+    { "src": "/dispatch", "dest": "/control-center/html/dispatch.html" },
+    { "src": "/emergency", "dest": "/control-center/html/emergency.html" },
+    { "src": "/analytics", "dest": "/control-center/html/analytics.html" },
+    { "src": "/settings", "dest": "/control-center/html/settings.html" },
+    { "src": "/client", "dest": "/client/index.html" },
+    { "src": "/sub-station", "dest": "/sub-station/index.html" },
+    { "src": "/(.*)", "dest": "/control-center/html/index.html" }
+  ],
+  "build": {
+    "command": "echo 'Build complete'",
+    "outputDirectory": "."
+  }
 }
