@@ -1,0 +1,16 @@
+/* 数据分析响应式样式 */
+
+@media (max-width: 768px) {
+    .filter-bar {
+        flex-direction: column;
+    }
+    .pie-chart {
+        flex-direction: column;
+    }
+    .bar-chart {
+        flex-wrap: wrap;
+    }
+    .bar {
+        width: 30px;
+    }
+}

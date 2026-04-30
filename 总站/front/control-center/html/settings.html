@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智环引诊 - 系统设置</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/settings.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>智环引诊</h1>
+                <p>云端调度中心</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dispatch.html" class="nav-link">调度管理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="emergency.html" class="nav-link">紧急情况</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">数据分析</a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link active">系统设置</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部头部 -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2>系统设置</h2>
+                    <p style="font-size: 13px; color: #666; margin-top: 4px;">系统配置与管理</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn success">保存设置</button>
+                    <button class="btn danger">恢复默认</button>
+                </div>
+            </header>
+
+            <!-- 基础设置 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">基础设置</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">系统名称</label>
+                    <input type="text" class="form-input" value="智环引诊 - 云端调度中心">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">系统版本</label>
+                    <input type="text" class="form-input" value="v1.0.0" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">时间同步</label>
+                    <select class="form-select">
+                        <option>自动同步(NTP)</option>
+                        <option>手动设置</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">系统描述</label>
+                    <textarea class="form-textarea">智环引诊云端调度中心，实现云边协同的分布式医疗空间感知网络管理</textarea>
+                </div>
+            </div>
+
+            <!-- 通知设置 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">通知设置</h3>
+                </div>
+                <div class="switch-group">
+                    <div>
+                        <div class="switch-label">紧急警报推送</div>
+                        <div class="switch-description">当有紧急警报时推送通知到管理员</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="switch-group">
+                    <div>
+                        <div class="switch-label">邮件通知</div>
+                        <div class="switch-description">发送警报邮件到指定邮箱</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="switch-group">
+                    <div>
+                        <div class="switch-label">短信通知</div>
+                        <div class="switch-description">发送警报短信到管理员手机</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="switch-group">
+                    <div>
+                        <div class="switch-label">声音提醒</div>
+                        <div class="switch-description">有新警报时播放提示音</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 子站管理 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">子站终端管理</h3>
+                    <button class="btn" style="font-size: 12px; padding: 6px 12px;">添加子站</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>子站名称</th>
+                                <th>位置</th>
+                                <th>状态</th>
+                                <th>最后在线</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>子站#01</td>
+                                <td>门诊楼A-1F</td>
+                                <td><span class="status-badge normal">在线</span></td>
+                                <td>刚刚</td>
+                                <td>
+                                    <button class="btn-sm">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>子站#02</td>
+                                <td>门诊楼A-2F</td>
+                                <td><span class="status-badge normal">在线</span></td>
+                                <td>刚刚</td>
+                                <td>
+                                    <button class="btn-sm">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>子站#03</td>
+                                <td>门诊楼B-1F</td>
+                                <td><span class="status-badge danger">离线</span></td>
+                                <td>10分钟前</td>
+                                <td>
+                                    <button class="btn-sm">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>子站#04</td>
+                                <td>医技楼-1F</td>
+                                <td><span class="status-badge normal">在线</span></td>
+                                <td>刚刚</td>
+                                <td>
+                                    <button class="btn-sm">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 数据备份 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">数据备份</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">自动备份</label>
+                    <select class="form-select">
+                        <option>每天凌晨2点</option>
+                        <option>每周日凌晨2点</option>
+                        <option>每月1号凌晨2点</option>
+                        <option>关闭</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">备份保留天数</label>
+                    <input type="number" class="form-input" value="30" min="1" max="365">
+                </div>
+                <div class="btn-group">
+                    <button class="btn">立即备份</button>
+                    <button class="btn success">恢复备份</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/settings.js"></script>
+</body>
+
+</html>

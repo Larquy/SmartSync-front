@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>智环引诊 - 患者服务</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-size: 16px;
+        }
+
+        /* 适老化设计增强 */
+        .senior-friendly {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .senior-friendly .hero-title {
+            font-size: 24px;
+        }
+
+        .senior-friendly .hero-desc {
+            font-size: 16px;
+        }
+
+        .senior-friendly .btn {
+            font-size: 18px;
+            padding: 18px;
+        }
+
+        .senior-friendly .appointment-card h3 {
+            font-size: 18px;
+        }
+
+        .senior-friendly .appointment-info {
+            font-size: 16px;
+        }
+
+        .senior-friendly .task-title {
+            font-size: 20px;
+        }
+
+        .senior-friendly .task-desc {
+            font-size: 16px;
+        }
+
+        /* 语音交互按钮 */
+        .voice-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #4285f4;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .voice-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(66, 133, 244, 0.6);
+        }
+
+        .voice-btn.active {
+            background: #3367d6;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* NFC绑定流程样式 */
+        .nfc-ring-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+        }
+
+        .nfc-ring-animation .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid #4285f4;
+            border-radius: 50%;
+            opacity: 0;
+            animation: nfcRing 2s infinite;
+        }
+
+        .nfc-ring-animation .ring:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .nfc-ring-animation .ring:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .nfc-ring-animation .ring:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes nfcRing {
+            0% {
+                width: 60px;
+                height: 60px;
+                opacity: 0.8;
+            }
+
+            100% {
+                width: 120px;
+                height: 120px;
+                opacity: 0;
+            }
+        }
+
+        .nfc-bind-flow {
+            margin: 30px 0;
+        }
+
+        .bind-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .bind-step::after {
+            content: '';
+            position: absolute;
+            left: 35px;
+            top: 60px;
+            width: 2px;
+            height: calc(100% + 16px);
+            background: #e0e0e0;
+        }
+
+        .bind-step:last-child::after {
+            display: none;
+        }
+
+        .bind-step.completed::after {
+            background: #4caf50;
+        }
+
+        .bind-step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .bind-step.completed .bind-step-icon {
+            background: #4caf50;
+        }
+
+        .bind-step.active .bind-step-icon {
+            background: #4285f4;
+            animation: pulse 1.5s infinite;
+        }
+
+        .bind-step-content h4 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .bind-step-content p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        .nfc-write-animation {
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .write-ring {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #4285f4;
+            border-radius: 50%;
+            animation: writePulse 1.5s infinite;
+        }
+
+        @keyframes writePulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .bind-tips {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .bind-tips p {
+            font-size: 14px;
+            color: #1a73e8;
+            margin: 4px 0;
+        }
+
+        /* 就诊轨迹时间线样式 */
+        .timeline-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-marker {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #4285f4;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-marker.completed {
+            background: #4caf50;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+
+        .timeline-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .timeline-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* 家庭关怀卡片样式 */
+        .family-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .family-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .family-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e3f2fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .family-info {
+            flex: 1;
+        }
+
+        .family-info h4 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .family-info p {
+            font-size: 12px;
+            color: #999;
+            margin: 0;
+        }
+
+        .family-status {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .family-status.connected {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .family-actions {
+            display: flex;
+            gap: 8px;
+            padding: 12px 0;
+        }
+
+        .action-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            background: #e3f2fd;
+        }
+
+        .action-icon {
+            font-size: 20px;
+        }
+
+        .action-item span:last-child {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .family-notice {
+            background: #fff3e0;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 8px;
+        }
+
+        .family-notice p {
+            font-size: 12px;
+            color: #ff9800;
+            margin: 0;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 4px 20px rgba(66, 133, 244, 0.8);
+            }
+
+            100% {
+                box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+            }
+        }
+
+        /* 无感化交互提示 */
+        .touch-hint {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(66, 133, 244, 0.9);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            z-index: 999;
+            animation: fadeInOut 3s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+
+            20% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            80% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn {
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #4285f4;
+            border-radius: 12px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            background: #e3f2fd;
+            border-radius: 24px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-icon img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .hero-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.15);
+            background: #fff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: #4285f4;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #3367d6;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #4285f4;
+            border: 1px solid #e3f2fd;
+            margin-top: 12px;
+        }
+
+        .btn-secondary:hover {
+            background: #e3f2fd;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .patient-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .patient-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .patient-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #4285f4;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .patient-details h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .patient-details p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .appointment-card {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .appointment-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #4285f4;
+        }
+
+        .appointment-info {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .appointment-info span {
+            color: #666;
+            margin-right: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4285f4;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 auto 5px;
+        }
+
+        .step-icon.active {
+            background: #4285f4;
+            color: #fff;
+        }
+
+        .step-icon.completed {
+            background: #34a853;
+            color: #fff;
+        }
+
+        .step-icon.pending {
+            background: #f8f9fa;
+            color: #999;
+            border: 1px solid #e0e0e0;
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .task-detail {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .task-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #4285f4;
+        }
+
+        .task-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .task-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .map-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        .map-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #4285f4;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .map-route {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .queue-display {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .queue-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4285f4;
+            margin-bottom: 10px;
+        }
+
+        .queue-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .queue-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .queue-stat-item {
+            text-align: center;
+        }
+
+        .queue-stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4285f4;
+        }
+
+        .queue-stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .chat-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .chat-message.user {
+            margin-left: auto;
+            background: #e3f2fd;
+            border-radius: 12px 12px 0 12px;
+            padding: 10px 15px;
+        }
+
+        .chat-message.system {
+            background: #fff;
+            border-radius: 12px 12px 12px 0;
+            padding: 10px 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px 0 0 20px;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            background: #4285f4;
+            color: #fff;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+        }
+
+        .emergency-container {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .emergency-icon {
+            width: 100px;
+            height: 100px;
+            background: #ea4335;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 48px;
+            font-weight: bold;
+            margin: 0 auto 30px;
+        }
+
+        .emergency-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ea4335;
+        }
+
+        .emergency-desc {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .report-list {
+            margin: 20px 0;
+        }
+
+        .report-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .report-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .report-info p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .report-status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #e3f2fd;
+            color: #4285f4;
+        }
+
+        .report-detail {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .report-date {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .report-content {
+            margin-bottom: 20px;
+        }
+
+        .report-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .report-content p {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .calendar-section {
+            margin: 20px 0;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: #f0f4f8;
+        }
+
+        .calendar-day.today {
+            background: #4285f4;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .calendar-day.has-appointment {
+            background: #e3f2fd;
+            color: #4285f4;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .calendar-day.has-appointment::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            background: #4285f4;
+            border-radius: 50%;
+        }
+
+        .weekday {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .rating-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .rating-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .star {
+            font-size: 32px;
+            color: #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .star.active {
+            color: #fbbc05;
+        }
+
+        .rating-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .rating-option {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .rating-option.active {
+            background: #e3f2fd;
+            border-color: #4285f4;
+            color: #4285f4;
+        }
+
+        .trace-map {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .trace-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .trace-stat-item {
+            text-align: center;
+        }
+
+        .trace-stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4285f4;
+        }
+
+        .trace-stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .family-mode {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .mode-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: #4285f4;
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .profile-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #4285f4;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .profile-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .menu-list {
+            margin: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item span {
+            font-size: 16px;
+        }
+
+        .menu-item .arrow {
+            font-size: 18px;
+            color: #999;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            padding-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+
+            .page {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 15px 0;
+            }
+
+            .hero-section {
+                padding: 30px 0;
+            }
+
+            .hero-icon {
+                width: 100px;
+                height: 100px;
+            }
+
+            .hero-icon img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .btn {
+                padding: 14px;
+                font-size: 15px;
+            }
+
+            .appointment-card {
+                padding: 12px;
+            }
+
+            .step-indicator {
+                flex-wrap: wrap;
+            }
+
+            .step {
+                flex: 1;
+                min-width: 60px;
+            }
+
+            .step-label {
+                font-size: 10px;
+            }
+
+            .voice-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .hero-title {
+                font-size: 18px;
+            }
+
+            .hero-desc {
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .appointment-info {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container senior-friendly">
+        <!-- 首次页面 -->
+        <div class="page active" id="home">
+            <div class="hero-section">
+                <div class="hero-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="#4285f4">
+                        <path
+                            d="M17.6 9.48l1.84-3.18c.16-.28.08-.64-.2-.8l-3.18-1.84a.55.55 0 00-.8.2L13 6.36l-4.6-1.76L6.4 6.4l1.76 4.6-1.76 2.4-2 2-3.18 1.84a.55.55 0 000 .8l1.84 3.18c.28.16.64.08.8-.2L6.36 13l2.76 6.4-1.76 4.6 2-2 2-1.76 4.6-1.76 1.76 4.6 6.4-2.76 3.18-1.84c.28-.16.36-.52.2-.8L19.36 11l1.84-3.18c.16-.28.08-.64-.2-.8z" />
+                    </svg>
+                    <div class="nfc-ring-animation">
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                    </div>
+                </div>
+                <h2 class="hero-title">感应就诊手环</h2>
+                <p class="hero-desc">正在感应您的就诊信息<br>请将手环靠近感应区</p>
+                <div class="touch-hint" id="touchHint">请将手环靠近感应区</div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('nfc-bind')">开始使用</button>
+        </div>
+
+        <!-- NFC绑定流程 -->
+        <div class="page" id="nfc-bind">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('home')">‹</div>
+                    <h2 class="header-title">NFC手环绑定</h2>
+                </div>
+            </div>
+            <div class="nfc-bind-flow">
+                <div class="bind-step completed">
+                    <div class="bind-step-icon">1</div>
+                    <div class="bind-step-content">
+                        <h4>身份识别</h4>
+                        <p>读取身份证信息完成</p>
+                    </div>
+                </div>
+                <div class="bind-step active">
+                    <div class="bind-step-icon">2</div>
+                    <div class="bind-step-content">
+                        <h4>NFC写入</h4>
+                        <p>将手环靠近感应区</p>
+                        <div class="nfc-write-animation">
+                            <div class="write-ring"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bind-step">
+                    <div class="bind-step-icon">3</div>
+                    <div class="bind-step-content">
+                        <h4>绑定完成</h4>
+                        <p>等待写入确认</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bind-tips">
+                <p>💡 请将纸质手环贴紧感应区域</p>
+                <p>📋 等待3秒即可完成绑定</p>
+            </div>
+            <button class="btn btn-primary" onclick="simulateNfcBind()">模拟写入</button>
+        </div>
+
+        <!-- 语音交互按钮 -->
+        <div class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</div>
+
+        <!-- 触控反馈增强 -->
+        <div class="touch-feedback-container"></div>
+
+        <!-- 无感化交互提示 -->
+        <div class="touch-hint" id="touchHint">请将手环靠近感应区</div>
+
+        <!-- 适老化模式切换 -->
+        <div class="senior-mode-toggle" style="position: fixed; top: 20px; right: 20px; z-index: 999;">
+            <label class="toggle-switch">
+                <input type="checkbox" id="seniorModeToggle" onclick="toggleSeniorMode()">
+                <span class="toggle-slider"></span>
+            </label>
+            <span style="font-size: 12px; margin-left: 8px; color: #666;">适老化模式</span>
+        </div>
+
+        <!-- 就诊概览 -->
+        <div class="page" id="overview">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('home')">‹</div>
+                    <h2 class="header-title">就诊概览</h2>
+                </div>
+            </div>
+            <div class="patient-info">
+                <div class="patient-header">
+                    <div class="patient-avatar">王</div>
+                    <div class="patient-details">
+                        <h3>王大爷</h3>
+                        <p>ID: #1082 | 男 | 72岁</p>
+                    </div>
+                </div>
+                <div class="appointment-card">
+                    <h3>心内科诊室</h3>
+                    <div class="appointment-info"><span>就诊时间：</span>14:30</div>
+                    <div class="appointment-info"><span>预计等待：</span>25分钟</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-indicator">
+                <div class="step">
+                    <div class="step-icon completed">1</div>
+                    <div class="step-label">导诊台</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon completed">2</div>
+                    <div class="step-label">候诊区</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon active">3</div>
+                    <div class="step-label">诊室</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon pending">4</div>
+                    <div class="step-label">检查</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon pending">5</div>
+                    <div class="step-label">取药</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('task-detail')">查看下一步</button>
+        </div>
+
+        <!-- 当前任务详情 -->
+        <div class="page" id="task-detail">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">当前任务</h2>
+                </div>
+                <span style="font-size: 14px; color: #666;">2/8</span>
+            </div>
+            <div class="task-detail">
+                <div class="task-icon">↑</div>
+                <h3 class="task-title">心电图检查</h3>
+                <p class="task-desc">直行30米右转<br>前方楼梯上2楼</p>
+                <div class="appointment-info" style="margin: 20px 0;"><span>预计时间：</span>15分钟</div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('navigation')">开始导航</button>
+        </div>
+
+        <!-- 路线导航 -->
+        <div class="page" id="navigation">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('task-detail')">‹</div>
+                    <h2 class="header-title">挂号导航</h2>
+                </div>
+            </div>
+            <div class="map-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f0f0f0'/%3E%3Crect x='50' y='50' width='300' height='200' fill='%23e0e0e0' stroke='%23999' stroke-width='1'/%3E%3Crect x='50' y='50' width='100' height='100' fill='%23e3f2fd' stroke='%234285f4' stroke-width='2'/%3E%3Crect x='160' y='50' width='100' height='100' fill='%23f8f9fa' stroke='%23999' stroke-width='1'/%3E%3Crect x='270' y='50' width='80' height='100' fill='%23f8f9fa' stroke='%23999' stroke-width='1'/%3E%3Crect x='50' y='160' width='300' height='90' fill='%23f8f9fa' stroke='%23999' stroke-width='1'/%3E%3Cpath d='M100,100 L150,100 L150,160 L200,160 L200,100 L250,100 L250,160 L300,160' stroke='%234285f4' stroke-width='2' fill='none' stroke-dasharray='5,5'/%3E%3Ccircle cx='100' cy='100' r='8' fill='%234285f4'/%3E%3Ccircle cx='300' cy='160' r='8' fill='%23ea4335'/%3E%3Ctext x='100' y='90' text-anchor='middle' fill='%234285f4' font-size='12'%3E当前位置%3C/text%3E%3Ctext x='300' y='150' text-anchor='middle' fill='%23ea4335' font-size='12'%3E心电图室%3C/text%3E%3C/svg%3E"
+                    alt="医院地图" class="map-image">
+                <div class="map-marker"></div>
+            </div>
+            <div class="task-detail">
+                <h3 class="task-title">直行30米右转</h3>
+                <p class="task-desc">前方楼梯上2楼<br>全程约2分钟</p>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('progress')">到达目的地</button>
+        </div>
+
+        <!-- 进度总览 -->
+        <div class="page" id="progress">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('navigation')">‹</div>
+                    <h2 class="header-title">就诊进度</h2>
+                </div>
+            </div>
+            <div class="step-indicator">
+                <div class="step">
+                    <div class="step-icon completed">1</div>
+                    <div class="step-label">导诊台</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon completed">2</div>
+                    <div class="step-label">候诊区</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon completed">3</div>
+                    <div class="step-label">医生问诊</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon active">4</div>
+                    <div class="step-label">心电图</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon pending">5</div>
+                    <div class="step-label">血液检查</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon pending">6</div>
+                    <div class="step-label">影像检查</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon pending">7</div>
+                    <div class="step-label">复诊</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon pending">8</div>
+                    <div class="step-label">取药</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('queue')">查看队列</button>
+        </div>
+
+        <!-- 等待队列页面 -->
+        <div class="page" id="queue">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('progress')">‹</div>
+                    <h2 class="header-title">心电图检查 (3F)</h2>
+                </div>
+            </div>
+            <div class="queue-display">
+                <div class="queue-number">第12号</div>
+                <div class="queue-info">前面等待 11人 | 预计等待 15分钟</div>
+                <div class="queue-stats">
+                    <div class="queue-stat-item">
+                        <div class="queue-stat-value">11人</div>
+                        <div class="queue-stat-label">等待人数</div>
+                    </div>
+                    <div class="queue-stat-item">
+                        <div class="queue-stat-value">15分钟</div>
+                        <div class="queue-stat-label">等待时间</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('chat')">语音咨询</button>
+        </div>
+
+        <!-- 语音咨询/问答 -->
+        <div class="page" id="chat">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('queue')">‹</div>
+                    <h2 class="header-title">语音咨询</h2>
+                </div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-message system">
+                    您好！我是智环引诊助手，有什么可以帮助您的吗？
+                </div>
+                <div class="chat-message user">
+                    洗手间在哪里？
+                </div>
+                <div class="chat-message system">
+                    洗手间在走廊尽头右转，大约50米处。
+                </div>
+                <div class="chat-input">
+                    <input type="text" placeholder="请输入您的问题...">
+                    <button>发送</button>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="showPage('emergency')">紧急求助</button>
+        </div>
+
+        <!-- 紧急求助 -->
+        <div class="page" id="emergency">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('chat')">‹</div>
+                    <h2 class="header-title">紧急求助</h2>
+                </div>
+            </div>
+            <div class="emergency-container">
+                <div class="emergency-icon">SOS</div>
+                <h3 class="emergency-title">紧急求助</h3>
+                <p class="emergency-desc">如遇紧急情况，请立即呼叫医护人员</p>
+            </div>
+            <button class="btn btn-primary" onclick="alert('已通知医护人员，他们将尽快赶到您的位置！')">确认求助</button>
+            <button class="btn btn-secondary" onclick="showPage('chat')">取消</button>
+        </div>
+
+        <!-- 报告列表 -->
+        <div class="page" id="reports">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">就诊报告</h2>
+                </div>
+            </div>
+            <div class="report-list">
+                <div class="report-item" onclick="showPage('report-detail')">
+                    <div class="report-info">
+                        <h4>心电图检查报告</h4>
+                        <p>2026-04-18 09:45</p>
+                    </div>
+                    <div class="report-status">正常</div>
+                </div>
+                <div class="report-item">
+                    <div class="report-info">
+                        <h4>血液检查报告</h4>
+                        <p>2026-04-17 14:30</p>
+                    </div>
+                    <div class="report-status">已出结果</div>
+                </div>
+                <div class="report-item">
+                    <div class="report-info">
+                        <h4>影像检查报告</h4>
+                        <p>2026-04-16 10:15</p>
+                    </div>
+                    <div class="report-status">已出结果</div>
+                </div>
+                <div class="report-item">
+                    <div class="report-info">
+                        <h4>医生诊断报告</h4>
+                        <p>2026-04-15 16:20</p>
+                    </div>
+                    <div class="report-status">已出结果</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 报告详情 -->
+        <div class="page" id="report-detail">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('reports')">‹</div>
+                    <h2 class="header-title">心电图检查报告</h2>
+                </div>
+            </div>
+            <div class="report-detail">
+                <div class="report-header">
+                    <h3>心电图检查报告</h3>
+                    <div class="report-date">2026-04-18 09:45</div>
+                </div>
+                <div class="report-content">
+                    <p><strong>检查结论：</strong>窦性心律，心率未见明显异常。</p>
+                    <p><strong>心率：</strong>78 次/分</p>
+                    <p><strong>PR间期：</strong>160 ms</p>
+                    <p><strong>QRS时限：</strong>86 ms</p>
+                    <p><strong>QT/QTc间期：</strong>360/412 ms</p>
+                    <p><strong>结论：</strong>心电图大致正常，未见明显异常改变。</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-primary" style="flex: 1;">下载报告</button>
+                <button class="btn btn-secondary" style="flex: 1;">分享报告</button>
+            </div>
+        </div>
+
+        <!-- 复诊提醒 -->
+        <div class="page" id="reminder">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">复诊提醒</h2>
+                </div>
+            </div>
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h2>2026年5月</h2>
+                    <div class="calendar-nav">
+                        <div class="nav-btn">‹</div>
+                        <div class="nav-btn">›</div>
+                    </div>
+                </div>
+                <div class="weekday">
+                    <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;">
+                        <div>日</div>
+                        <div>一</div>
+                        <div>二</div>
+                        <div>三</div>
+                        <div>四</div>
+                        <div>五</div>
+                        <div>六</div>
+                    </div>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day" style="color: #999;">28</div>
+                    <div class="calendar-day" style="color: #999;">29</div>
+                    <div class="calendar-day" style="color: #999;">30</div>
+                    <div class="calendar-day" style="color: #999;">1</div>
+                    <div class="calendar-day" style="color: #999;">2</div>
+                    <div class="calendar-day" style="color: #999;">3</div>
+                    <div class="calendar-day" style="color: #999;">4</div>
+                    <div class="calendar-day" style="color: #999;">5</div>
+                    <div class="calendar-day" style="color: #999;">6</div>
+                    <div class="calendar-day" style="color: #999;">7</div>
+                    <div class="calendar-day" style="color: #999;">8</div>
+                    <div class="calendar-day" style="color: #999;">9</div>
+                    <div class="calendar-day" style="color: #999;">10</div>
+                    <div class="calendar-day" style="color: #999;">11</div>
+                    <div class="calendar-day" style="color: #999;">12</div>
+                    <div class="calendar-day" style="color: #999;">13</div>
+                    <div class="calendar-day" style="color: #999;">14</div>
+                    <div class="calendar-day has-appointment">15</div>
+                    <div class="calendar-day">16</div>
+                    <div class="calendar-day">17</div>
+                    <div class="calendar-day">18</div>
+                    <div class="calendar-day">19</div>
+                    <div class="calendar-day">20</div>
+                    <div class="calendar-day">21</div>
+                    <div class="calendar-day">22</div>
+                    <div class="calendar-day">23</div>
+                    <div class="calendar-day">24</div>
+                    <div class="calendar-day">25</div>
+                    <div class="calendar-day">26</div>
+                    <div class="calendar-day">27</div>
+                    <div class="calendar-day">28</div>
+                    <div class="calendar-day">29</div>
+                    <div class="calendar-day">30</div>
+                    <div class="calendar-day">31</div>
+                </div>
+                <div class="appointment-detail"
+                    style="margin-top: 20px; background: #e3f2fd; border-radius: 12px; padding: 15px;">
+                    <div class="appointment-time">5月15日 09:30</div>
+                    <div class="appointment-info">
+                        <span>科室：</span>心内科
+                    </div>
+                    <div class="appointment-info">
+                        <span>医生：</span>王医生
+                    </div>
+                    <div class="appointment-info">
+                        <span>诊室：</span>2楼-203
+                    </div>
+                    <div class="appointment-notes">
+                        复诊提醒：请携带上次就诊的病历本和检查报告，提前30分钟到达医院。
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="alert('已添加到日历提醒！')">添加到日历</button>
+        </div>
+
+        <!-- 满意度评价 -->
+        <div class="page" id="rating">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">满意度评价</h2>
+                </div>
+            </div>
+            <div class="rating-section">
+                <h3 class="rating-title">本次就诊体验如何？</h3>
+                <div class="stars">
+                    <div class="star active">★</div>
+                    <div class="star active">★</div>
+                    <div class="star active">★</div>
+                    <div class="star active">★</div>
+                    <div class="star">★</div>
+                </div>
+                <div class="rating-options">
+                    <div class="rating-option active">满意</div>
+                    <div class="rating-option">一般</div>
+                    <div class="rating-option">不满意</div>
+                    <div class="rating-option">非常不满意</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('overview')">提交评价</button>
+        </div>
+
+        <!-- 就诊轨迹回顾 -->
+        <div class="page" id="trace">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">就诊轨迹</h2>
+                </div>
+            </div>
+            <div class="trace-map">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f0f0f0'/%3E%3Crect x='50' y='50' width='300' height='200' fill='%23e0e0e0' stroke='%23999' stroke-width='1'/%3E%3Crect x='50' y='50' width='100' height='100' fill='%23e3f2fd' stroke='%234285f4' stroke-width='2'/%3E%3Crect x='160' y='50' width='100' height='100' fill='%23f8f9fa' stroke='%23999' stroke-width='1'/%3E%3Crect x='270' y='50' width='80' height='100' fill='%23f8f9fa' stroke='%23999' stroke-width='1'/%3E%3Crect x='50' y='160' width='300' height='90' fill='%23f8f9fa' stroke='%23999' stroke-width='1'/%3E%3Cpath d='M100,100 L150,100 L150,160 L200,160 L200,100 L250,100 L250,160 L300,160 L300,100 L250,100 L250,50 L150,50 L150,100 L100,100' stroke='%234285f4' stroke-width='2' fill='none' stroke-dasharray='5,5'/%3E%3Ccircle cx='100' cy='100' r='8' fill='%234285f4'/%3E%3Ccircle cx='300' cy='100' r='8' fill='%2334a853'/%3E%3Ctext x='100' y='90' text-anchor='middle' fill='%234285f4' font-size='12'%3E起点%3C/text%3E%3Ctext x='300' y='90' text-anchor='middle' fill='%2334a853' font-size='12'%3E终点%3C/text%3E%3C/svg%3E"
+                    alt="就诊轨迹" class="map-image">
+            </div>
+            <div class="trace-stats">
+                <div class="trace-stat-item">
+                    <div class="trace-stat-value">1.2 km</div>
+                    <div class="trace-stat-label">步行距离</div>
+                </div>
+                <div class="trace-stat-item">
+                    <div class="trace-stat-value">8个</div>
+                    <div class="trace-stat-label">途经节点</div>
+                </div>
+                <div class="trace-stat-item">
+                    <div class="trace-stat-value">4h 10m</div>
+                    <div class="trace-stat-label">总耗时</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('overview')">重新规划</button>
+        </div>
+
+        <!-- 家属关怀模式 -->
+        <div class="page" id="family-mode">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">家属关怀模式</h2>
+                </div>
+            </div>
+            <div class="family-mode">
+                <div class="mode-toggle">
+                    <h3>快速模式</h3>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="mode-toggle">
+                    <h3>关怀模式（需绑定）</h3>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h4>绑定家人手环</h4>
+                    <p style="font-size: 14px; color: #666; margin-top: 10px;">为家人绑定手环后，您可以实时查看他们的就诊进度和位置信息。</p>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('overview')">绑定手环</button>
+        </div>
+
+        <!-- 个人中心 -->
+        <div class="page" id="profile">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">个人中心</h2>
+                </div>
+            </div>
+            <div class="profile-section">
+                <div class="profile-avatar">王</div>
+                <div class="profile-info">
+                    <h3>王大爷</h3>
+                    <p>ID: #1082 | 72岁</p>
+                </div>
+            </div>
+            <div class="menu-list">
+                <div class="menu-item" onclick="showPage('reports')">
+                    <span>就诊报告</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" onclick="showPage('reminder')">
+                    <span>复诊提醒</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" onclick="showPage('rating')">
+                    <span>满意度评价</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" onclick="showPage('trace')">
+                    <span>就诊轨迹</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" onclick="showPage('family-mode')">
+                    <span>家属关怀模式</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item">
+                    <span>个人信息</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item">
+                    <span>手环管理</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item">
+                    <span>消息通知</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item">
+                    <span>帮助与反馈</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item">
+                    <span>关于我们</span>
+                    <span class="arrow">›</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 诊后服务闭环 -->
+        <div class="page" id="post-visit">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-btn" onclick="showPage('overview')">‹</div>
+                    <h2 class="header-title">诊后服务</h2>
+                </div>
+            </div>
+            <div class="hero-section">
+                <div class="hero-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="#4285f4">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                    </svg>
+                </div>
+                <h2 class="hero-title">诊后服务闭环</h2>
+                <p class="hero-desc">您的健康，我们持续关注</p>
+            </div>
+            <div style="padding: 0 20px;">
+                <div class="appointment-card">
+                    <h3>本次就诊总结</h3>
+                    <div class="appointment-info"><span>就诊时间：</span>2026-04-18 14:30</div>
+                    <div class="appointment-info"><span>就诊科室：</span>心内科</div>
+                    <div class="appointment-info"><span>主治医生：</span>王医生</div>
+                    <div class="appointment-info"><span>诊断结果：</span>高血压 II 期</div>
+                    <div class="appointment-info"><span>处方药物：</span>降压药 × 2种</div>
+                    <div class="appointment-info"><span>就诊时长：</span>45分钟</div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">后续建议</h3>
+                    <div class="appointment-card">
+                        <div class="appointment-info"><span>复诊时间：</span>2026-05-15 09:30</div>
+                        <div class="appointment-info"><span>注意事项：</span>低盐饮食，规律作息</div>
+                        <div class="appointment-info"><span>运动建议：</span>适量有氧运动</div>
+                        <div class="appointment-info"><span>用药指导：</span>每日早晚各一次</div>
+                        <div class="appointment-info"><span>饮食建议：</span>减少钠盐摄入，增加钾盐摄入</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">健康监测</h3>
+                    <div class="appointment-card">
+                        <div class="appointment-info"><span>血压监测：</span>每日早中晚各一次</div>
+                        <div class="appointment-info"><span>体重监测：</span>每周测量2-3次</div>
+                        <div class="appointment-info"><span>运动记录：</span>每日30分钟有氧运动</div>
+                    </div>
+                </div>
+
+                <!-- 就诊轨迹时间线 -->
+                <div style="margin-top: 20px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">就诊轨迹</h3>
+                    <div class="timeline-card">
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">14:30</div>
+                                <div class="timeline-title">入院登记</div>
+                                <div class="timeline-desc">门诊楼A入口</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">14:35</div>
+                                <div class="timeline-title">心内科候诊</div>
+                                <div class="timeline-desc">等待时间: 25分钟</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">15:00</div>
+                                <div class="timeline-title">心电图检查</div>
+                                <div class="timeline-desc">医技楼2层</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">15:30</div>
+                                <div class="timeline-title">抽血检验</div>
+                                <div class="timeline-desc">检验科</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker completed"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">16:15</div>
+                                <div class="timeline-title">取药离院</div>
+                                <div class="timeline-desc">药房</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 家庭价值延伸 -->
+                <div style="margin-top: 20px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">家属关怀</h3>
+                    <div class="family-card">
+                        <div class="family-header">
+                            <div class="family-avatar">👨</div>
+                            <div class="family-info">
+                                <h4>王小明</h4>
+                                <p>儿子 · 138****5678</p>
+                            </div>
+                            <div class="family-status connected">已关联</div>
+                        </div>
+                        <div class="family-actions">
+                            <div class="action-item" onclick="showPage('trace')">
+                                <span class="action-icon">📍</span>
+                                <span>实时位置</span>
+                            </div>
+                            <div class="action-item" onclick="showPage('reports')">
+                                <span class="action-icon">📋</span>
+                                <span>报告查看</span>
+                            </div>
+                            <div class="action-item" onclick="showPage('reminder')">
+                                <span class="action-icon">⏰</span>
+                                <span>提醒设置</span>
+                            </div>
+                        </div>
+                        <div class="family-notice">
+                            <p>📱 家属可通过触碰手环获取您的就诊动态</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="btn btn-primary" onclick="showPage('reports')">查看报告</button>
+                    <button class="btn btn-secondary" onclick="showPage('reminder')">复诊提醒</button>
+                    <button class="btn btn-secondary" onclick="showPage('rating')">满意度评价</button>
+                    <button class="btn btn-secondary" onclick="showPage('family-mode')">家属关怀</button>
+                    <button class="btn btn-secondary" onclick="showPage('trace')">就诊轨迹</button>
+                    <button class="btn btn-secondary" onclick="exportReport()">导出报告</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2026 智环引诊 版权所有
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // 显示指定页面
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // 模拟进度条动画
+        function animateProgress() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        }
+
+        // 星星评分
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.addEventListener('click', function () {
+                document.querySelectorAll('.star').forEach((s, i) => {
+                    if (i <= index) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // 评价选项
+        document.querySelectorAll('.rating-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('.rating-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // 语音交互功能
+        function toggleVoice() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            voiceBtn.classList.toggle('active');
+
+            if (voiceBtn.classList.contains('active')) {
+                // 模拟语音识别开始
+                showTouchHint('正在听您说话...');
+                setTimeout(() => {
+                    voiceBtn.classList.remove('active');
+                    showTouchHint('语音识别完成');
+                    // 模拟语音命令处理
+                    setTimeout(() => {
+                        // 根据语音命令跳转到相应页面
+                        showPage('overview');
+                    }, 1000);
+                }, 3000);
+            }
+        }
+
+        // 显示无感化交互提示
+        function showTouchHint(message) {
+            const touchHint = document.createElement('div');
+            touchHint.className = 'touch-hint';
+            touchHint.textContent = message;
+            document.body.appendChild(touchHint);
+
+            // 3秒后自动移除
+            setTimeout(() => {
+                if (touchHint.parentNode) {
+                    touchHint.parentNode.removeChild(touchHint);
+                }
+            }, 3000);
+        }
+
+        // 模拟手环感应
+        function simulateRingDetection() {
+            showTouchHint('正在感应手环...');
+            setTimeout(() => {
+                showTouchHint('手环识别成功');
+                setTimeout(() => {
+                    showPage('overview');
+                }, 1000);
+            }, 2000);
+        }
+
+        // 适老化模式切换
+        function toggleSeniorMode() {
+            const container = document.querySelector('.container');
+            const toggle = document.getElementById('seniorModeToggle');
+
+            if (toggle.checked) {
+                container.classList.add('senior-friendly');
+                showTouchHint('适老化模式已开启');
+            } else {
+                container.classList.remove('senior-friendly');
+                showTouchHint('适老化模式已关闭');
+            }
+        }
+
+        // 模拟NFC绑定流程
+        function simulateNfcBind() {
+            const steps = document.querySelectorAll('.bind-step');
+            const activeStep = document.querySelector('.bind-step.active');
+            const activeIndex = Array.from(steps).indexOf(activeStep);
+
+            if (activeIndex < steps.length - 1) {
+                steps[activeIndex].classList.remove('active');
+                steps[activeIndex].classList.add('completed');
+                steps[activeIndex].querySelector('.bind-step-content p').textContent = '写入成功';
+
+                steps[activeIndex + 1].classList.add('active');
+
+                showTouchHint('NFC写入成功，正在跳转到就诊概览...');
+
+                setTimeout(() => {
+                    showPage('overview');
+                }, 1500);
+            }
+        }
+
+        // 增强触控反馈
+        document.addEventListener('click', function (e) {
+            if (e.target.tagName === 'BUTTON' || e.target.classList.contains('menu-item') || e.target.classList.contains('back-btn')) {
+                createTouchFeedback(e.clientX, e.clientY);
+            }
+        });
+
+        function createTouchFeedback(x, y) {
+            const feedback = document.createElement('div');
+            feedback.className = 'touch-feedback';
+            feedback.style.left = (x - 20) + 'px';
+            feedback.style.top = (y - 20) + 'px';
+            document.body.appendChild(feedback);
+
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 600);
+        }
+
+        // 导出报告功能
+        function exportReport() {
+            showTouchHint('正在生成报告...');
+            setTimeout(() => {
+                showTouchHint('报告生成成功，正在下载...');
+                // 模拟下载文件
+                setTimeout(() => {
+                    showTouchHint('报告已下载到本地');
+                }, 1000);
+            }, 2000);
+        }
+
+        // 页面加载时执行
+        window.onload = function () {
+            animateProgress();
+            // 模拟手环感应提示
+            setTimeout(() => {
+                simulateRingDetection();
+            }, 1000);
+        };
+    </script>
+</body>
+
+</html>
