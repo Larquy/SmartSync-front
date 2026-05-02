@@ -1,32 +1,58 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/",
-      "destination": "/control-center/html/index.html"
+      "src": "**/*.html",
+      "use": "@vercel/static"
     },
     {
-      "source": "/dispatch",
-      "destination": "/control-center/html/dispatch.html"
+      "src": "**/*.css",
+      "use": "@vercel/static"
     },
     {
-      "source": "/emergency",
-      "destination": "/control-center/html/emergency.html"
-    },
-    {
-      "source": "/analytics",
-      "destination": "/control-center/html/analytics.html"
-    },
-    {
-      "source": "/settings",
-      "destination": "/control-center/html/settings.html"
-    },
-    {
-      "source": "/client",
-      "destination": "/patient-client.html"
-    },
-    {
-      "source": "/sub-station",
-      "destination": "/sub-station.html"
-    }
-  ]
+      "src": "*"use": "@verce
+    ],"routes": [
+  {
+    "src": "/control-center/html/dispatch",
+      "dest": "/c
+  {
+    "src": "/control-center/html/emergency",
+      "dest": "/
+  {
+    "src": "/control-center/html/analytics",
+      "dest }
+  
+  "src: "/control-center/html/settings",
+  
 }
+  
+  "src: "/patient-client",
+  
+}
+  
+  "src: "/sub-station",
+  "dest": "/sub-station.html"
+},
+{
+"src": "/(.*)","dest": "/control-center/html/index.html"
+}
+],
+"headers": [
+{
+"source": "/(.*)",
+"headers": [
+  {
+    "key": "Access-Control-Allow-Origin",
+    "value": "*"
+  },
+  {
+    "key": "Access-Control-Allow-Method
+    "value": "GET, HEAD, OPTIONS"
+  },
+  {
+    "key": "Cac"value": "public, 
+  }
+]
+    }
+  
+  
