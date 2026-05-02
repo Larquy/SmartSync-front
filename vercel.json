@@ -10,49 +10,57 @@
       "use": "@vercel/static"
     },
     {
-      "src": "*"use": "@verce
-    ],"routes": [
-  {
-    "src": "/control-center/html/dispatch",
-      "dest": "/c
-  {
-    "src": "/control-center/html/emergency",
-      "dest": "/
-  {
-    "src": "/control-center/html/analytics",
-      "dest }
-  
-  "src: "/control-center/html/settings",
-  
-}
-  
-  "src: "/patient-client",
-  
-}
-  
-  "src: "/sub-station",
-  "dest": "/sub-station.html"
-},
-{
-"src": "/(.*)","dest": "/control-center/html/index.html"
-}
-],
-"headers": [
-{
-"source": "/(.*)",
-"headers": [
-  {
-    "key": "Access-Control-Allow-Origin",
-    "value": "*"
-  },
-  {
-    "key": "Access-Control-Allow-Method
-    "value": "GET, HEAD, OPTIONS"
-  },
-  {
-    "key": "Cac"value": "public, 
-  }
-]
+      "src": "**/*.js",
+      "use": "@vercel/static"
     }
-  
-  
+  ],
+  "routes": [
+    {
+      "src": "/control-center/html/dispatch",
+      "dest": "/control-center/html/dispatch.html"
+    },
+    {
+      "src": "/control-center/html/emergency",
+      "dest": "/control-center/html/emergency.html"
+    },
+    {
+      "src": "/control-center/html/analytics",
+      "dest": "/control-center/html/analytics.html"
+    },
+    {
+      "src": "/control-center/html/settings",
+      "dest": "/control-center/html/settings.html"
+    },
+    {
+      "src": "/patient-client",
+      "dest": "/patient-client.html"
+    },
+    {
+      "src": "/sub-station",
+      "dest": "/sub-station.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/control-center/html/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, HEAD, OPTIONS"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        }
+      ]
+    }
+  ]
+}
