@@ -4,5 +4,4 @@
     { "source": "/:path.html", "destination": "/html/:path.html" }
     { "source": "/:path", "destination": "/html/:path.html" }
   ]
-  ]
 }
