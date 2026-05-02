@@ -1,63 +1,65 @@
 {
-  "version": 2,
   "builds": [
     {
-      "src": "control-center/html/index.html",
+      "src": "**/*.html",
       "use": "@vercel/static"
     },
     {
-      "src": "control-center/html/dispatch.html",
+      "src": "**/*.css",
       "use": "@vercel/static"
     },
     {
-      "src": "control-center/html/emergency.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "control-center/html/analytics.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "control-center/html/settings.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "client/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "sub-station/index.html",
+      "src": "**/*.js",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/control-center/html/index.html"
-    },
-    {
-      "src": "/dispatch",
+      "src": "/control-center/html/dispatch",
       "dest": "/control-center/html/dispatch.html"
     },
     {
-      "src": "/emergency",
+      "src": "/control-center/html/emergency",
       "dest": "/control-center/html/emergency.html"
     },
     {
-      "src": "/analytics",
+      "src": "/control-center/html/analytics",
       "dest": "/control-center/html/analytics.html"
     },
     {
-      "src": "/settings",
+      "src": "/control-center/html/settings",
       "dest": "/control-center/html/settings.html"
     },
     {
-      "src": "/client",
-      "dest": "/client/index.html"
+      "src": "/patient-client",
+      "dest": "/patient-client.html"
     },
     {
       "src": "/sub-station",
-      "dest": "/sub-station/index.html"
+      "dest": "/sub-station.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/control-center/html/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, HEAD, OPTIONS"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        }
+      ]
     }
   ]
 }
