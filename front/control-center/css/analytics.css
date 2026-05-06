@@ -1,9 +1,0 @@
-/* 数据分析页面样式 - 组件化引入 */
-
-/* 引入组件样式 */
-@import url('./components/charts/line-chart.css');
-@import url('./components/charts/bar-chart.css');
-@import url('./components/charts/pie-chart.css');
-@import url('./components/widgets/filter-bar.css');
-@import url('./components/charts/trend-indicator.css');
-@import url('./components/responsive/analytics-responsive.css');
