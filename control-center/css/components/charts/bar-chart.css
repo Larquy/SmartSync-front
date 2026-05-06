@@ -4,8 +4,9 @@
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
-    height: calc(100% - 30px);
-    padding-top: 10px;
+    height: 180px;
+    padding-top: 35px;
+    padding-bottom: 15px;
 }
 
 .bar-item {

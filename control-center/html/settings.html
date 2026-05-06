@@ -45,8 +45,8 @@
                     <p style="font-size: 13px; color: #666; margin-top: 4px;">系统配置与管理</p>
                 </div>
                 <div class="header-right">
-                    <button class="btn success">保存设置</button>
-                    <button class="btn danger">恢复默认</button>
+                    <button class="btn success" onclick="saveSettings()">保存设置</button>
+                    <button class="btn danger" onclick="restoreDefaults()">恢复默认</button>
                 </div>
             </header>
 
@@ -127,7 +127,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">子站终端管理</h3>
-                    <button class="btn" style="font-size: 12px; padding: 6px 12px;">添加子站</button>
+                    <button class="btn" style="font-size: 12px; padding: 6px 12px;" onclick="addSubstation()">添加子站</button>
                 </div>
                 <div class="table-container">
                     <table class="data-table">
@@ -147,8 +147,8 @@
                                 <td><span class="status-badge normal">在线</span></td>
                                 <td>刚刚</td>
                                 <td>
-                                    <button class="btn-sm">重启</button>
-                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                    <button class="btn-sm" onclick="restartServer('子站#01')">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;" onclick="deleteServer('子站#01')">删除</button>
                                 </td>
                             </tr>
                             <tr>
@@ -157,8 +157,8 @@
                                 <td><span class="status-badge normal">在线</span></td>
                                 <td>刚刚</td>
                                 <td>
-                                    <button class="btn-sm">重启</button>
-                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                    <button class="btn-sm" onclick="restartServer('子站#02')">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;" onclick="deleteServer('子站#02')">删除</button>
                                 </td>
                             </tr>
                             <tr>
@@ -167,8 +167,8 @@
                                 <td><span class="status-badge danger">离线</span></td>
                                 <td>10分钟前</td>
                                 <td>
-                                    <button class="btn-sm">重启</button>
-                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                    <button class="btn-sm" onclick="restartServer('子站#03')">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;" onclick="deleteServer('子站#03')">删除</button>
                                 </td>
                             </tr>
                             <tr>
@@ -177,8 +177,8 @@
                                 <td><span class="status-badge normal">在线</span></td>
                                 <td>刚刚</td>
                                 <td>
-                                    <button class="btn-sm">重启</button>
-                                    <button class="btn-sm" style="background: #f44336;">删除</button>
+                                    <button class="btn-sm" onclick="restartServer('子站#04')">重启</button>
+                                    <button class="btn-sm" style="background: #f44336;" onclick="deleteServer('子站#04')">删除</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -205,8 +205,8 @@
                     <input type="number" class="form-input" value="30" min="1" max="365">
                 </div>
                 <div class="btn-group">
-                    <button class="btn">立即备份</button>
-                    <button class="btn success">恢复备份</button>
+                    <button class="btn" onclick="backupNow()">立即备份</button>
+                    <button class="btn success" onclick="restoreBackup()">恢复备份</button>
                 </div>
             </div>
         </main>

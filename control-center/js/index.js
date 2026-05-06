@@ -1,11 +1,9 @@
-// 实时更新时间
 setInterval(() => {
     const date = new Date();
     const timeString = date.toISOString().replace('T', ' ').substring(0, 19);
     document.getElementById('dateInfo').textContent = timeString;
 }, 1000);
 
-// 刷新按钮功能
 function refreshData() {
     const btn = document.querySelector('.refresh-btn');
     btn.innerHTML = '刷新中...';
@@ -16,7 +14,6 @@ function refreshData() {
     }, 1000);
 }
 
-// 更新警报状态
 function updateAlarmStatus() {
     const alarmCard = document.getElementById('alarmCard');
     const alarmValue = document.getElementById('alarmValue');
@@ -35,5 +32,21 @@ function updateAlarmStatus() {
     }
 }
 
-// 页面加载时初始化
-window.addEventListener('load', updateAlarmStatus);
+function handleAlarm(id) {
+    const btn = event.target;
+    btn.innerHTML = '处理中...';
+    btn.disabled = true;
+    setTimeout(() => {
+        btn.innerHTML = '已处理';
+        btn.style.background = '#4caf50';
+        alert('警报已处理');
+    }, 800);
+}
+
+window.addEventListener('load', function() {
+    updateAlarmStatus();
+    const alarmBtns = document.querySelectorAll('.alarm-btn');
+    alarmBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => handleAlarm(index));
+    });
+});

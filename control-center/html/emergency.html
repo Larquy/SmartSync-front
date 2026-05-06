@@ -46,8 +46,8 @@
                 </div>
                 <div class="header-right">
                     <span class="date-info" id="dateInfo">2026-04-29 14:35:28</span>
-                    <button class="btn danger">紧急广播</button>
-                    <button class="btn success">导出记录</button>
+                    <button class="btn danger" onclick="emergencyBroadcast()">紧急广播</button>
+                    <button class="btn success" onclick="exportRecords()">导出记录</button>
                 </div>
             </header>
 
@@ -75,10 +75,13 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">实时警报列表</h4>
-                    <span style="font-size: 12px; color: #666;">共 8 条警报</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 12px; color: #666;">共 5 条警报</span>
+                        <button class="btn-sm" style="background: #5c7cfa; color: white;" onclick="goToAlarmList()">更多</button>
+                    </div>
                 </div>
                 <div class="alarm-list">
-                    <div class="alarm-item danger">
+                    <div class="alarm-item danger" id="alarm-1">
                         <div class="alarm-info">
                             <div class="alarm-content">
                                 <div class="alarm-time">14:35:28</div>
@@ -87,12 +90,12 @@
                             </div>
                         </div>
                         <div class="alarm-actions">
-                            <button class="alarm-btn primary" onclick="showPatientDetail('王大爷')">查看详情</button>
-                            <button class="alarm-btn success">立即处理</button>
+                            <button class="alarm-btn primary" onclick="showPatientDetail('王大爷', 1)">查看详情</button>
+                            <button class="alarm-btn success" onclick="handleAlarmDirect(1)">立即处理</button>
                         </div>
                     </div>
 
-                    <div class="alarm-item danger">
+                    <div class="alarm-item danger" id="alarm-2">
                         <div class="alarm-info">
                             <div class="alarm-content">
                                 <div class="alarm-time">14:33:15</div>
@@ -101,8 +104,8 @@
                             </div>
                         </div>
                         <div class="alarm-actions">
-                            <button class="alarm-btn primary" onclick="showPatientDetail('李女士')">查看详情</button>
-                            <button class="alarm-btn success">立即处理</button>
+                            <button class="alarm-btn primary" onclick="showPatientDetail('李女士', 2)">查看详情</button>
+                            <button class="alarm-btn success" onclick="handleAlarmDirect(2)">立即处理</button>
                         </div>
                     </div>
 
@@ -115,8 +118,8 @@
                             </div>
                         </div>
                         <div class="alarm-actions">
-                            <button class="alarm-btn secondary">忽略</button>
-                            <button class="alarm-btn primary">分流处理</button>
+                            <button class="alarm-btn secondary" onclick="ignoreAlert()">忽略</button>
+                            <button class="alarm-btn primary" onclick="triagePatient()">分流处理</button>
                         </div>
                     </div>
 
@@ -129,8 +132,8 @@
                             </div>
                         </div>
                         <div class="alarm-actions">
-                            <button class="alarm-btn secondary">延后</button>
-                            <button class="alarm-btn primary">安排维护</button>
+                            <button class="alarm-btn secondary" onclick="postponeAlert()">延后</button>
+                            <button class="alarm-btn primary" onclick="assignMaintenance()">安排维护</button>
                         </div>
                     </div>
 
@@ -143,7 +146,7 @@
                             </div>
                         </div>
                         <div class="alarm-actions">
-                            <button class="alarm-btn secondary">关闭</button>
+                            <button class="alarm-btn secondary" onclick="closeAlert()">关闭</button>
                         </div>
                     </div>
                 </div>
@@ -238,7 +241,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" onclick="closeModal()">关闭</button>
-                <button class="btn success">立即派单</button>
+                <button class="btn success" onclick="handlePatient()">立即处理</button>
             </div>
         </div>
     </div>

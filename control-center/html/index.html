@@ -78,58 +78,10 @@
             <!-- 主要内容网格 -->
             <div class="content-grid">
                 <!-- 院区数字孪生卡片 -->
-                <div class="content-card">
+                <div class="content-card full-width">
                     <div class="card-header">
                         <h3 class="card-title">院区数字孪生</h3>
                         <a href="#" class="card-more">更多 ›</a>
-                    </div>
-                    <div class="area-grid">
-                        <div class="area-item">
-                            <div class="area-header">
-                                <span class="area-name">门诊楼A</span>
-                                <span class="area-density high">87%</span>
-                            </div>
-                            <div class="area-info">流量 154人</div>
-                            <div class="area-bar">
-                                <div class="area-fill" style="width: 87%; background: #f44336;"></div>
-                            </div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-header">
-                                <span class="area-name">门诊楼B</span>
-                                <span class="area-density high">84%</span>
-                            </div>
-                            <div class="area-info">流量 182人</div>
-                            <div class="area-bar">
-                                <div class="area-fill" style="width: 84%; background: #f44336;"></div>
-                            </div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-header">
-                                <span class="area-name">医技楼</span>
-                                <span class="area-density medium">76%</span>
-                            </div>
-                            <div class="area-info">流量 124人</div>
-                            <div class="area-bar">
-                                <div class="area-fill" style="width: 76%; background: #ff9800;"></div>
-                            </div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-header">
-                                <span class="area-name">住院楼</span>
-                                <span class="area-density high">86%</span>
-                            </div>
-                            <div class="area-info">流量 189人</div>
-                            <div class="area-bar">
-                                <div class="area-fill" style="width: 86%; background: #f44336;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="density-legend">
-                        <span>密度</span>
-                        <div class="legend-bar"></div>
-                        <span>低</span>
-                        <span>高</span>
                     </div>
                 </div>
 
@@ -137,7 +89,7 @@
                 <div class="content-card">
                     <div class="card-header">
                         <h3 class="card-title">科室负载排行</h3>
-                        <a href="#" class="card-more">更多 ›</a>
+                        <a href="dept-load.html" class="card-more">更多 ›</a>
                     </div>
                     <div class="dept-list">
                         <div class="dept-row">
@@ -207,7 +159,7 @@
                                 <div class="alarm-location">1F-电梯厅</div>
                                 <div class="alarm-desc">需要轮椅协助</div>
                             </div>
-                            <button class="alarm-btn">立即处理</button>
+                            <button class="alarm-btn" onclick="handleAlarm(0)">立即处理</button>
                         </div>
                         <div class="alarm-item">
                             <div class="alarm-indicator urgent"></div>
@@ -216,53 +168,57 @@
                                 <div class="alarm-location">2F-洗手间附近</div>
                                 <div class="alarm-desc">需要紧急救助</div>
                             </div>
-                            <button class="alarm-btn urgent">立即处理</button>
+                            <button class="alarm-btn urgent" onclick="handleAlarm(1)">立即处理</button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 患者来源分布图 -->
-            <div class="source-distribution-card">
-                <div class="card-header">
-                    <h3 class="card-title">患者来源分布</h3>
-                </div>
-                <div class="source-content">
-                    <div class="source-pie">
-                        <svg width="200" height="200" viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r="80" fill="#e0e0e0" />
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="#4285f4" stroke-width="32"
-                                stroke-dasharray="201 502" transform="rotate(-90 100 100)" />
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="#4caf50" stroke-width="32"
-                                stroke-dasharray="151 502" stroke-dashoffset="-201" transform="rotate(-90 100 100)" />
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="#ff9800" stroke-width="32"
-                                stroke-dasharray="100 502" stroke-dashoffset="-352" transform="rotate(-90 100 100)" />
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="#f44336" stroke-width="32"
-                                stroke-dasharray="50 502" stroke-dashoffset="-452" transform="rotate(-90 100 100)" />
-                            <text x="100" y="95" text-anchor="middle" font-size="16" font-weight="600">12,456</text>
-                            <text x="100" y="115" text-anchor="middle" font-size="12" fill="#666">今日总量</text>
-                        </svg>
+                <!-- 患者来源分布卡片 -->
+                <div class="content-card source-distribution-card">
+                    <div class="card-header">
+                        <h3 class="card-title">患者来源分布</h3>
                     </div>
-                    <div class="source-legend">
-                        <div class="legend-item">
-                            <span class="legend-color" style="background: #4285f4;"></span>
-                            <span class="legend-label">主城区</span>
-                            <span class="legend-value">40%</span>
+                    <div class="source-content">
+                        <div class="source-pie">
+                            <svg width="200" height="200" viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="55" fill="none" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#5BA0E6" stroke-width="25"
+                                    stroke-dasharray="201 502" transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#5BCFA0" stroke-width="25"
+                                    stroke-dasharray="151 502" stroke-dashoffset="-201"
+                                    transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#F0D490" stroke-width="25"
+                                    stroke-dasharray="100 502" stroke-dashoffset="-352"
+                                    transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#F0AFAF" stroke-width="25"
+                                    stroke-dasharray="50 502" stroke-dashoffset="-452"
+                                    transform="rotate(-90 100 100)" />
+                                <text x="100" y="95" text-anchor="middle" font-size="16" font-weight="500"
+                                    fill="#495057">12,456</text>
+                                <text x="100" y="115" text-anchor="middle" font-size="12" fill="#868e96">今日总量</text>
+                            </svg>
                         </div>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background: #4caf50;"></span>
-                            <span class="legend-label">郊区</span>
-                            <span class="legend-value">30%</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background: #ff9800;"></span>
-                            <span class="legend-label">周边县市</span>
-                            <span class="legend-value">20%</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background: #f44336;"></span>
-                            <span class="legend-label">外地</span>
-                            <span class="legend-value">10%</span>
+                        <div class="source-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #5BA0E6;"></span>
+                                <span class="legend-label">主城区</span>
+                                <span class="legend-value">40%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #5BCFA0;"></span>
+                                <span class="legend-label">郊区</span>
+                                <span class="legend-value">30%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #F0D490;"></span>
+                                <span class="legend-label">周边县市</span>
+                                <span class="legend-value">20%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #F0AFAF;"></span>
+                                <span class="legend-label">外地</span>
+                                <span class="legend-value">10%</span>
+                            </div>
                         </div>
                     </div>
                 </div>

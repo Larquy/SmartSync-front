@@ -46,8 +46,8 @@
                 </div>
                 <div class="header-right">
                     <span class="date-info" id="dateInfo">2026-04-29 14:35:28</span>
-                    <button class="btn primary">执行分流</button>
-                    <button class="btn success">导出报表</button>
+                    <button class="btn primary" id="mainTriageBtn" onclick="var btn=this;btn.innerHTML='执行中...';btn.disabled=true;setTimeout(function(){btn.innerHTML='执行分流';btn.disabled=false;alert('分流执行成功！');},1500);">执行分流</button>
+                    <button class="btn success" id="exportBtn" onclick="var btn=this;btn.innerHTML='导出中...';btn.disabled=true;setTimeout(function(){btn.innerHTML='导出报表';btn.disabled=false;alert('报表导出成功！');},1500);">导出报表</button>
                 </div>
             </header>
 
@@ -73,42 +73,42 @@
                                 <td>12</td>
                                 <td>18分钟</td>
                                 <td><span class="status-badge warning">中等</span></td>
-                                <td><button class="btn-sm">查看</button></td>
+                                <td><button class="btn-sm" onclick="viewDetail('内科')">查看</button></td>
                             </tr>
                             <tr>
                                 <td>外科</td>
                                 <td>8</td>
                                 <td>12分钟</td>
                                 <td><span class="status-badge normal">正常</span></td>
-                                <td><button class="btn-sm">查看</button></td>
+                                <td><button class="btn-sm" onclick="viewDetail('外科')">查看</button></td>
                             </tr>
                             <tr>
                                 <td>检验科</td>
                                 <td>24</td>
                                 <td>35分钟</td>
                                 <td><span class="status-badge danger">繁忙</span></td>
-                                <td><button class="btn-sm">分流</button></td>
+                                <td><button class="btn-sm" onclick="triageDepartment('检验科')">分流</button></td>
                             </tr>
                             <tr>
                                 <td>影像科</td>
                                 <td>18</td>
                                 <td>28分钟</td>
                                 <td><span class="status-badge warning">中等</span></td>
-                                <td><button class="btn-sm">查看</button></td>
+                                <td><button class="btn-sm" onclick="viewDetail('影像科')">查看</button></td>
                             </tr>
                             <tr>
                                 <td>心内科</td>
                                 <td>15</td>
                                 <td>22分钟</td>
                                 <td><span class="status-badge warning">中等</span></td>
-                                <td><button class="btn-sm">查看</button></td>
+                                <td><button class="btn-sm" onclick="viewDetail('心内科')">查看</button></td>
                             </tr>
                             <tr>
                                 <td>急诊科</td>
                                 <td>5</td>
                                 <td>5分钟</td>
                                 <td><span class="status-badge normal">正常</span></td>
-                                <td><button class="btn-sm">查看</button></td>
+                                <td><button class="btn-sm" onclick="viewDetail('急诊科')">查看</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -208,7 +208,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">柔性动态分流决策</h4>
-                    <button class="btn primary">执行分流</button>
+                    <button class="btn primary" onclick="var btn=this;btn.innerHTML='执行中...';btn.disabled=true;setTimeout(function(){btn.innerHTML='执行分流';btn.disabled=false;alert('分流执行成功！');},1500);">执行分流</button>
                 </div>
                 <div class="dispatch-grid">
                     <div class="dispatch-metrics">

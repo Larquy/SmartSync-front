@@ -1,0 +1,100 @@
+.alarm-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.alarm-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.25s ease;
+    border: 1px solid #f1f3f5;
+}
+
+.alarm-item:hover {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.alarm-item.danger {
+    background: #fff5f5;
+    border-color: #fff5f5;
+}
+
+.alarm-item.success {
+    background: #f8fff9;
+    border-color: #f8fff9;
+}
+
+.alarm-info {
+    flex: 1;
+}
+
+.alarm-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.alarm-time {
+    font-size: 11px;
+    color: #adb5bd;
+}
+
+.alarm-location {
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.alarm-desc {
+    font-size: 12px;
+    color: #868e96;
+}
+
+.alarm-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: 16px;
+}
+
+.alarm-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.alarm-btn.primary {
+    background: #5c7cfa;
+    color: #fff;
+}
+
+.alarm-btn.primary:hover {
+    background: #4c6ef5;
+}
+
+.alarm-btn.success {
+    background: #51cf66;
+    color: #fff;
+}
+
+.alarm-btn.success:hover {
+    background: #40c057;
+}
+
+.alarm-btn.secondary {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.alarm-btn.secondary:hover {
+    background: #dee2e6;
+}

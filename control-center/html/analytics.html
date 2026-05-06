@@ -46,7 +46,7 @@
                 </div>
                 <div class="header-right">
                     <span class="date-info" id="dateInfo">2026-04-29</span>
-                    <button class="btn success">导出报表</button>
+                    <button class="btn success" onclick="exportReport()">导出报表</button>
                 </div>
             </header>
 
@@ -78,7 +78,7 @@
                         <option>CSV</option>
                     </select>
                 </div>
-                <button class="btn">查询</button>
+                <button class="btn" onclick="queryData()">查询</button>
             </div>
 
             <!-- 月度就诊趋势 -->
@@ -102,8 +102,11 @@
                                     <stop offset="100%" stop-color="rgba(66, 133, 244, 0)" />
                                 </linearGradient>
                             </defs>
-                            <path d="M 40,160 Q 100,140 160,150 T 280,120 T 400,100 T 520,110 T 640,130 T 760,140" fill="none" stroke="#4285f4" stroke-width="2" stroke-linecap="round" />
-                            <path d="M 40,180 L 40,160 Q 100,140 160,150 T 280,120 T 400,100 T 520,110 T 640,130 T 760,140 L 760,180 Z" fill="url(#areaGradient)" />
+                            <path d="M 40,160 Q 100,140 160,150 T 280,120 T 400,100 T 520,110 T 640,130 T 760,140"
+                                fill="none" stroke="#4285f4" stroke-width="2" stroke-linecap="round" />
+                            <path
+                                d="M 40,180 L 40,160 Q 100,140 160,150 T 280,120 T 400,100 T 520,110 T 640,130 T 760,140 L 760,180 Z"
+                                fill="url(#areaGradient)" />
                             <circle cx="400" cy="100" r="4" fill="#4285f4" />
                             <circle cx="520" cy="110" r="4" fill="#4285f4" />
                             <circle cx="640" cy="130" r="4" fill="#4285f4" />
@@ -129,27 +132,27 @@
                         <div class="bar-chart">
                             <div class="bar-item">
                                 <span class="bar-value">156</span>
-                                <div class="bar" style="height: 160px;"></div>
+                                <div class="bar" style="height: 110px;"></div>
                                 <span class="bar-label">检验科</span>
                             </div>
                             <div class="bar-item">
                                 <span class="bar-value">142</span>
-                                <div class="bar" style="height: 145px;"></div>
+                                <div class="bar" style="height: 100px;"></div>
                                 <span class="bar-label">影像科</span>
                             </div>
                             <div class="bar-item">
                                 <span class="bar-value">98</span>
-                                <div class="bar" style="height: 100px;"></div>
+                                <div class="bar" style="height: 70px;"></div>
                                 <span class="bar-label">心内科</span>
                             </div>
                             <div class="bar-item">
                                 <span class="bar-value">76</span>
-                                <div class="bar" style="height: 78px;"></div>
+                                <div class="bar" style="height: 55px;"></div>
                                 <span class="bar-label">内分泌</span>
                             </div>
                             <div class="bar-item">
                                 <span class="bar-value">54</span>
-                                <div class="bar" style="height: 55px;"></div>
+                                <div class="bar" style="height: 40px;"></div>
                                 <span class="bar-label">消化科</span>
                             </div>
                         </div>
@@ -164,32 +167,39 @@
                     <div class="chart-container" style="height: auto;">
                         <div class="pie-chart">
                             <svg width="180" height="180" viewBox="0 0 200 200">
-                                <circle cx="100" cy="100" r="70" fill="#e0e0e0" />
-                                <circle cx="100" cy="100" r="70" fill="none" stroke="#4caf50" stroke-width="28" stroke-dasharray="198 440" transform="rotate(-90 100 100)" />
-                                <circle cx="100" cy="100" r="70" fill="none" stroke="#4285f4" stroke-width="28" stroke-dasharray="97 440" stroke-dashoffset="-198" transform="rotate(-90 100 100)" />
-                                <circle cx="100" cy="100" r="70" fill="none" stroke="#ff9800" stroke-width="28" stroke-dasharray="53 440" stroke-dashoffset="-295" transform="rotate(-90 100 100)" />
-                                <circle cx="100" cy="100" r="70" fill="none" stroke="#f44336" stroke-width="28" stroke-dasharray="22 440" stroke-dashoffset="-348" transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="70" fill="#f0f7ff" />
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#5BA0E6" stroke-width="28"
+                                    stroke-dasharray="198 440" transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#5BCFA0" stroke-width="28"
+                                    stroke-dasharray="97 440" stroke-dashoffset="-198"
+                                    transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#F0D490" stroke-width="28"
+                                    stroke-dasharray="53 440" stroke-dashoffset="-295"
+                                    transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#F0AFAF" stroke-width="28"
+                                    stroke-dasharray="22 440" stroke-dashoffset="-348"
+                                    transform="rotate(-90 100 100)" />
                                 <text x="100" y="95" text-anchor="middle" font-size="14" font-weight="600">87%</text>
                                 <text x="100" y="115" text-anchor="middle" font-size="11" fill="#666">满意度</text>
                             </svg>
                             <div class="pie-legend">
                                 <div class="legend-item">
-                                    <span class="legend-color" style="background: #4caf50;"></span>
+                                    <span class="legend-color" style="background: #5BA0E6;"></span>
                                     <span class="legend-label">非常满意</span>
                                     <span class="legend-value">45%</span>
                                 </div>
                                 <div class="legend-item">
-                                    <span class="legend-color" style="background: #4285f4;"></span>
+                                    <span class="legend-color" style="background: #5BCFA0;"></span>
                                     <span class="legend-label">满意</span>
                                     <span class="legend-value">22%</span>
                                 </div>
                                 <div class="legend-item">
-                                    <span class="legend-color" style="background: #ff9800;"></span>
+                                    <span class="legend-color" style="background: #F0D490;"></span>
                                     <span class="legend-label">一般</span>
                                     <span class="legend-value">12%</span>
                                 </div>
                                 <div class="legend-item">
-                                    <span class="legend-color" style="background: #f44336;"></span>
+                                    <span class="legend-color" style="background: #F0AFAF;"></span>
                                     <span class="legend-label">不满意</span>
                                     <span class="legend-value">5%</span>
                                 </div>
