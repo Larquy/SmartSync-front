@@ -1,0 +1,50 @@
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f3f5;
+    transition: all 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(92, 124, 250, 0.12);
+}
+
+.stat-card.danger {
+    background: #ffffff;
+}
+
+.stat-card.warning {
+    background: #ffffff;
+}
+
+.stat-card.success {
+    background: #ffffff;
+}
+
+.stat-card.info {
+    background: #ffffff;
+}
+
+.stat-card .stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+
+.stat-card .stat-label {
+    font-size: 13px;
+    color: #868e96;
+    font-weight: 500;
+}

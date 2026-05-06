@@ -1,0 +1,68 @@
+/* 科室负载列表组件 */
+
+.dept-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.dept-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dept-name {
+    font-size: 12px;
+    color: #495057;
+    flex: 0 0 70px;
+}
+
+.dept-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dept-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #212529;
+    flex: 0 0 35px;
+}
+
+.dept-bar {
+    flex: 1;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.dept-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.dept-fill.danger {
+    background: #ff6b6b;
+}
+
+.dept-fill.warning {
+    background: #fcc419;
+}
+
+.dept-fill.normal {
+    background: #51cf66;
+}
+
+.dept-percent {
+    font-size: 11px;
+    color: #868e96;
+    flex: 0 0 35px;
+    text-align: right;
+}

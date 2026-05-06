@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智环引诊 - 云端调度中心</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>智环引诊</h1>
+                <p>云端调度中心</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dispatch.html" class="nav-link">调度管理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="emergency.html" class="nav-link">紧急情况</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">数据分析</a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">系统设置</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部头部 -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2>实时态势监控</h2>
+                </div>
+                <div class="header-right">
+                    <span class="date-info" id="dateInfo">2026-04-29 14:35:28</span>
+                    <span class="weather-info">晴 26°C</span>
+                    <span class="user-info">管理员</span>
+                    <button class="refresh-btn" onclick="refreshData()">刷新</button>
+                </div>
+            </header>
+
+            <!-- KPI指标卡片 -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">今日就诊人数</div>
+                    <div class="kpi-value">12,456</div>
+                    <div class="kpi-change positive"><span>↑</span>较昨日 +2.4%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">当前在院人数</div>
+                    <div class="kpi-value">1,247</div>
+                    <div class="kpi-change negative"><span>↓</span>较昨日 -1.7%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">科室利用率</div>
+                    <div class="kpi-value">78.6%</div>
+                    <div class="kpi-change positive"><span>↑</span>较昨日 +2.4%</div>
+                </div>
+                <div class="kpi-card" id="alarmCard">
+                    <div class="kpi-title">警报数量</div>
+                    <div class="kpi-value" id="alarmValue">3</div>
+                    <div class="kpi-change" id="alarmStatus"><span>!</span>待处理</div>
+                </div>
+            </div>
+
+            <!-- 主要内容网格 -->
+            <div class="content-grid">
+                <!-- 院区数字孪生卡片 -->
+                <div class="content-card full-width">
+                    <div class="card-header">
+                        <h3 class="card-title">院区数字孪生</h3>
+                        <a href="#" class="card-more">更多 ›</a>
+                    </div>
+                </div>
+
+                <!-- 科室数据卡片 -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3 class="card-title">科室负载排行</h3>
+                        <a href="#" class="card-more">更多 ›</a>
+                    </div>
+                    <div class="dept-list">
+                        <div class="dept-row">
+                            <div class="dept-name">检验科</div>
+                            <div class="dept-info">
+                                <span class="dept-count">156</span>
+                                <div class="dept-bar">
+                                    <div class="dept-fill danger" style="width: 92%;"></div>
+                                </div>
+                                <span class="dept-percent">92%</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div class="dept-name">影像科</div>
+                            <div class="dept-info">
+                                <span class="dept-count">142</span>
+                                <div class="dept-bar">
+                                    <div class="dept-fill warning" style="width: 85%;"></div>
+                                </div>
+                                <span class="dept-percent">85%</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div class="dept-name">心内科</div>
+                            <div class="dept-info">
+                                <span class="dept-count">98</span>
+                                <div class="dept-bar">
+                                    <div class="dept-fill warning" style="width: 63%;"></div>
+                                </div>
+                                <span class="dept-percent">63%</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div class="dept-name">内分泌科</div>
+                            <div class="dept-info">
+                                <span class="dept-count">76</span>
+                                <div class="dept-bar">
+                                    <div class="dept-fill normal" style="width: 48%;"></div>
+                                </div>
+                                <span class="dept-percent">48%</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div class="dept-name">消化内科</div>
+                            <div class="dept-info">
+                                <span class="dept-count">54</span>
+                                <div class="dept-bar">
+                                    <div class="dept-fill normal" style="width: 35%;"></div>
+                                </div>
+                                <span class="dept-percent">35%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 紧急求助卡片 -->
+                <div class="content-card emergency-card">
+                    <div class="card-header">
+                        <h3 class="card-title">紧急求助实时警报</h3>
+                        <a href="emergency.html" class="card-more">更多 ›</a>
+                    </div>
+                    <div class="alarm-list">
+                        <div class="alarm-item">
+                            <div class="alarm-indicator"></div>
+                            <div class="alarm-content">
+                                <div class="alarm-time">14:31</div>
+                                <div class="alarm-location">1F-电梯厅</div>
+                                <div class="alarm-desc">需要轮椅协助</div>
+                            </div>
+                            <button class="alarm-btn">立即处理</button>
+                        </div>
+                        <div class="alarm-item">
+                            <div class="alarm-indicator urgent"></div>
+                            <div class="alarm-content">
+                                <div class="alarm-time">14:29</div>
+                                <div class="alarm-location">2F-洗手间附近</div>
+                                <div class="alarm-desc">需要紧急救助</div>
+                            </div>
+                            <button class="alarm-btn urgent">立即处理</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 患者来源分布卡片 -->
+                <div class="content-card source-distribution-card">
+                    <div class="card-header">
+                        <h3 class="card-title">患者来源分布</h3>
+                    </div>
+                    <div class="source-content">
+                        <div class="source-pie">
+                            <svg width="200" height="200" viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="55" fill="none" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#5BA0E6" stroke-width="25"
+                                    stroke-dasharray="201 502" transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#5BCFA0" stroke-width="25"
+                                    stroke-dasharray="151 502" stroke-dashoffset="-201"
+                                    transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#F0D490" stroke-width="25"
+                                    stroke-dasharray="100 502" stroke-dashoffset="-352"
+                                    transform="rotate(-90 100 100)" />
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#F0AFAF" stroke-width="25"
+                                    stroke-dasharray="50 502" stroke-dashoffset="-452"
+                                    transform="rotate(-90 100 100)" />
+                                <text x="100" y="95" text-anchor="middle" font-size="16" font-weight="500"
+                                    fill="#495057">12,456</text>
+                                <text x="100" y="115" text-anchor="middle" font-size="12" fill="#868e96">今日总量</text>
+                            </svg>
+                        </div>
+                        <div class="source-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #5BA0E6;"></span>
+                                <span class="legend-label">主城区</span>
+                                <span class="legend-value">40%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #5BCFA0;"></span>
+                                <span class="legend-label">郊区</span>
+                                <span class="legend-value">30%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #F0D490;"></span>
+                                <span class="legend-label">周边县市</span>
+                                <span class="legend-value">20%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #F0AFAF;"></span>
+                                <span class="legend-label">外地</span>
+                                <span class="legend-value">10%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 流量趋势卡片 -->
+            <div class="trend-card">
+                <div class="card-header">
+                    <h3 class="card-title">24小时流量趋势</h3>
+                </div>
+                <div class="trend-chart line-chart">
+                    <div class="trend-y-axis">
+                        <span>300</span>
+                        <span>200</span>
+                        <span>100</span>
+                        <span>0</span>
+                    </div>
+                    <div class="line-container">
+                        <svg class="line-chart-svg" width="100%" height="100%" viewBox="0 0 800 200">
+                            <defs>
+                                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="rgba(66, 133, 244, 0.3)" />
+                                    <stop offset="100%" stop-color="rgba(66, 133, 244, 0)" />
+                                </linearGradient>
+                            </defs>
+                            <path
+                                d="M 50,180 Q 100,150 150,140 T 250,100 T 350,60 T 450,50 T 550,70 T 650,100 T 750,120"
+                                fill="none" stroke="#4285f4" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M 50,200 L 50,180 Q 100,150 150,140 T 250,100 T 350,60 T 450,50 T 550,70 T 650,100 T 750,120 L 750,200 Z"
+                                fill="url(#lineGradient)" />
+                            <circle cx="350" cy="60" r="4" fill="#4285f4" />
+                            <circle cx="450" cy="50" r="4" fill="#4285f4" />
+                            <circle cx="550" cy="70" r="4" fill="#4285f4" />
+                        </svg>
+                    </div>
+                    <div class="trend-x-axis">
+                        <span>00</span>
+                        <span>04</span>
+                        <span>08</span>
+                        <span>12</span>
+                        <span>16</span>
+                        <span>20</span>
+                        <span>24</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统运行状态 -->
+            <div class="system-status-card">
+                <div class="card-header">
+                    <h3 class="card-title">系统运行状态</h3>
+                    <div class="system-status-summary">
+                        <span class="status-dot online"></span>
+                        <span>系统运行正常</span>
+                    </div>
+                </div>
+                <div class="system-status-grid">
+                    <div class="status-section">
+                        <h4>子站终端</h4>
+                        <div class="status-items">
+                            <div class="status-item">
+                                <span class="item-label">在线子站</span>
+                                <span class="item-value success">24/28</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="item-label">离线子站</span>
+                                <span class="item-value danger">4</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="item-label">网络延迟</span>
+                                <span class="item-value normal">12ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-section">
+                        <h4>服务器状态</h4>
+                        <div class="status-items">
+                            <div class="status-item">
+                                <span class="item-label">主服务器</span>
+                                <span class="item-value success">运行中</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="item-label">备份服务器</span>
+                                <span class="item-value success">同步中</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="item-label">数据库</span>
+                                <span class="item-value normal">85%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-section">
+                        <h4>设备状态</h4>
+                        <div class="status-items">
+                            <div class="status-item">
+                                <span class="item-label">NFC设备</span>
+                                <span class="item-value success">28台</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="item-label">语音设备</span>
+                                <span class="item-value success">28台</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="item-label">待维护</span>
+                                <span class="item-value warning">2台</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/index.js"></script>
+</body>
+
+</html>

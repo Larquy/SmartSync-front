@@ -1,0 +1,60 @@
+/* KPI指标卡片组件 */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f3f5;
+    transition: all 0.25s ease;
+}
+
+.kpi-card.alarm {
+    background: #ffffff;
+    border-color: #ffffff;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(92, 124, 250, 0.12);
+}
+
+.kpi-title {
+    font-size: 13px;
+    color: #868e96;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.kpi-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+
+.kpi-change {
+    font-size: 12px;
+    color: #868e96;
+}
+
+.kpi-change.positive {
+    color: #40c057;
+}
+
+.kpi-change.negative {
+    color: #ff6b6b;
+}
+
+.kpi-change.danger {
+    color: #ff6b6b;
+    font-weight: 600;
+}
