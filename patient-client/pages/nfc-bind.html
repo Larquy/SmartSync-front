@@ -1,0 +1,74 @@
+<div class="page" id="nfc-bind">
+    <div class="header">
+        <div class="header-left">
+            <div class="back-btn" onclick="showPage('home')">‹</div>
+            <h2 class="header-title">NFC手环绑定</h2>
+        </div>
+    </div>
+    
+    <div class="bind-container">
+        <div class="bind-step active">
+            <div class="step-circle">1</div>
+            <div class="step-line"></div>
+            <div class="step-content">
+                <div class="step-title">身份识别</div>
+                <div class="step-desc">读取身份证信息完成</div>
+                <div class="step-status completed">✓ 已完成</div>
+            </div>
+        </div>
+        
+        <div class="bind-step active">
+            <div class="step-circle active">2</div>
+            <div class="step-line"></div>
+            <div class="step-content">
+                <div class="step-title">NFC写入</div>
+                <div class="step-desc">将手环靠近感应区</div>
+                <div class="nfc-animation-wrapper">
+                    <div class="nfc-write-animation">
+                        <div class="write-ring"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bind-step">
+            <div class="step-circle">3</div>
+            <div class="step-content">
+                <div class="step-title">绑定完成</div>
+                <div class="step-desc">等待写入确认</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bind-tips">
+        <div class="tip-item">
+            <span class="tip-icon">💡</span>
+            <span class="tip-text">请将纸质手环贴紧感应区域</span>
+        </div>
+        <div class="tip-item">
+            <span class="tip-icon">⏱️</span>
+            <span class="tip-text">等待3秒即可完成绑定</span>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary btn-block" onclick="simulateNfcBind()">模拟写入</button>
+    
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showPage('overview')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reports')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">报告</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reminder')">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">复诊</span>
+        </button>
+        <button class="nav-item" onclick="showPage('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">我的</span>
+        </button>
+    </div>
+</div>

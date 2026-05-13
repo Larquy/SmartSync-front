@@ -1,0 +1,138 @@
+<div class="page" id="overview">
+    <div class="header">
+        <div class="header-left">
+            <div class="back-btn" onclick="showPage('home')">‹</div>
+            <h2 class="header-title">就诊概览</h2>
+        </div>
+        <div class="header-right">
+            <span class="header-badge">今日已完成 5/8 项</span>
+        </div>
+    </div>
+    
+    <div class="patient-card">
+        <div class="patient-avatar-wrapper">
+            <div class="patient-avatar">王</div>
+            <div class="avatar-badge">在线</div>
+        </div>
+        <div class="patient-info">
+            <h3 class="patient-name">王大爷</h3>
+            <p class="patient-detail">ID: #8102 | 男 | 72岁</p>
+        </div>
+    </div>
+    
+    <div class="appointment-card">
+        <div class="appointment-header">
+            <div class="appointment-department">心内科诊室</div>
+            <div class="appointment-floor">3F 心内科</div>
+        </div>
+        <div class="appointment-body">
+            <div class="appointment-row">
+                <span class="label">就诊时间</span>
+                <span class="value">14:30</span>
+            </div>
+            <div class="appointment-row">
+                <span class="label">预计等待</span>
+                <span class="value highlight">28分钟</span>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="showPage('task-detail')">查看下一步任务</button>
+        <div class="appointment-actions">
+            <button class="action-btn" onclick="showPage('chat')">
+                <span class="action-icon">💬</span>
+                <span>咨询</span>
+            </button>
+            <button class="action-btn" onclick="showPage('emergency')">
+                <span class="action-icon">⚠️</span>
+                <span>求助</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h3 class="section-title">就诊进度</h3>
+        <div class="progress-timeline">
+            <div class="progress-item completed">
+                <div class="progress-dot"></div>
+                <div class="progress-line"></div>
+                <div class="progress-info">
+                    <div class="progress-title">挂号</div>
+                    <div class="progress-time">09:00</div>
+                </div>
+            </div>
+            <div class="progress-item completed">
+                <div class="progress-dot"></div>
+                <div class="progress-line"></div>
+                <div class="progress-info">
+                    <div class="progress-title">就诊</div>
+                    <div class="progress-time">09:30</div>
+                </div>
+            </div>
+            <div class="progress-item completed">
+                <div class="progress-dot"></div>
+                <div class="progress-line"></div>
+                <div class="progress-info">
+                    <div class="progress-title">检查</div>
+                    <div class="progress-time">10:15</div>
+                </div>
+            </div>
+            <div class="progress-item active">
+                <div class="progress-dot"></div>
+                <div class="progress-line"></div>
+                <div class="progress-info">
+                    <div class="progress-title">心电图检查</div>
+                    <div class="progress-time">进行中</div>
+                </div>
+            </div>
+            <div class="progress-item pending">
+                <div class="progress-dot"></div>
+                <div class="progress-line"></div>
+                <div class="progress-info">
+                    <div class="progress-title">血液化验</div>
+                    <div class="progress-time">待进行</div>
+                </div>
+            </div>
+            <div class="progress-item pending">
+                <div class="progress-dot"></div>
+                <div class="progress-line"></div>
+                <div class="progress-info">
+                    <div class="progress-title">影像检查</div>
+                    <div class="progress-time">待进行</div>
+                </div>
+            </div>
+            <div class="progress-item pending">
+                <div class="progress-dot"></div>
+                <div class="progress-line"></div>
+                <div class="progress-info">
+                    <div class="progress-title">复诊取结果</div>
+                    <div class="progress-time">待进行</div>
+                </div>
+            </div>
+            <div class="progress-item pending">
+                <div class="progress-dot"></div>
+                <div class="progress-info">
+                    <div class="progress-title">缴费取药</div>
+                    <div class="progress-time">待进行</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="showPage('overview')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reports')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">报告</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reminder')">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">复诊</span>
+        </button>
+        <button class="nav-item" onclick="showPage('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">我的</span>
+        </button>
+    </div>
+</div>

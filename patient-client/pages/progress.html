@@ -1,0 +1,118 @@
+<div class="page" id="progress">
+    <div class="header">
+        <div class="header-left">
+            <div class="back-btn" onclick="showPage('navigation')">‹</div>
+            <h2 class="header-title">就诊进度</h2>
+        </div>
+    </div>
+    
+    <div class="progress-header">
+        <div class="progress-title">就诊进度</div>
+        <div class="progress-percent">62.5%</div>
+    </div>
+    
+    <div class="progress-bar-large">
+        <div class="progress-fill" style="width: 62.5%;"></div>
+    </div>
+    
+    <div class="progress-stats">
+        <div class="stat-card">
+            <div class="stat-value completed">5</div>
+            <div class="stat-label">已完成</div>
+        </div>
+        <div class="stat-card active">
+            <div class="stat-value">1</div>
+            <div class="stat-label">进行中</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value pending">2</div>
+            <div class="stat-label">待完成</div>
+        </div>
+    </div>
+    
+    <div class="progress-list">
+        <div class="progress-item completed">
+            <div class="progress-icon">✅</div>
+            <div class="progress-content">
+                <div class="progress-title">挂号建档</div>
+                <div class="progress-time">09:00 已完成</div>
+            </div>
+            <div class="progress-status">已完成</div>
+        </div>
+        
+        <div class="progress-item completed">
+            <div class="progress-icon">✅</div>
+            <div class="progress-content">
+                <div class="progress-title">医生问诊</div>
+                <div class="progress-time">09:30 已完成</div>
+            </div>
+            <div class="progress-status">已完成</div>
+        </div>
+        
+        <div class="progress-item completed">
+            <div class="progress-icon">✅</div>
+            <div class="progress-content">
+                <div class="progress-title">心电图检查</div>
+                <div class="progress-time">10:15 已完成</div>
+            </div>
+            <div class="progress-status">已完成</div>
+        </div>
+        
+        <div class="progress-item active">
+            <div class="progress-icon">🔄</div>
+            <div class="progress-content">
+                <div class="progress-title">血液化验</div>
+                <div class="progress-time">进行中</div>
+            </div>
+            <div class="progress-status active-text">进行中</div>
+        </div>
+        
+        <div class="progress-item pending">
+            <div class="progress-icon">○</div>
+            <div class="progress-content">
+                <div class="progress-title">影像检查</div>
+                <div class="progress-time">待进行</div>
+            </div>
+            <div class="progress-status pending-text">待进行</div>
+        </div>
+        
+        <div class="progress-item pending">
+            <div class="progress-icon">○</div>
+            <div class="progress-content">
+                <div class="progress-title">复诊取结果</div>
+                <div class="progress-time">待进行</div>
+            </div>
+            <div class="progress-status pending-text">待进行</div>
+        </div>
+        
+        <div class="progress-item pending">
+            <div class="progress-icon">○</div>
+            <div class="progress-content">
+                <div class="progress-title">缴费取药</div>
+                <div class="progress-time">待进行</div>
+            </div>
+            <div class="progress-status pending-text">待进行</div>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary btn-block" onclick="showPage('queue')">查看当前队列</button>
+    
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showPage('overview')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reports')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">报告</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reminder')">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">复诊</span>
+        </button>
+        <button class="nav-item" onclick="showPage('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">我的</span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="page" id="rating">
+    <div class="header">
+        <div class="header-left">
+            <div class="back-btn" onclick="showPage('overview')">‹</div>
+            <h2 class="header-title">满意度评价</h2>
+        </div>
+    </div>
+    
+    <div class="rating-card">
+        <div class="rating-title">本次就诊体验如何？</div>
+        
+        <div class="stars-section">
+            <div class="stars">
+                <span class="star active" onclick="setRating(1)">★</span>
+                <span class="star active" onclick="setRating(2)">★</span>
+                <span class="star active" onclick="setRating(3)">★</span>
+                <span class="star active" onclick="setRating(4)">★</span>
+                <span class="star" onclick="setRating(5)">★</span>
+            </div>
+            <div class="rating-text">非常满意</div>
+        </div>
+        
+        <div class="options-section">
+            <button class="option-btn active">非常满意</button>
+            <button class="option-btn">满意</button>
+            <button class="option-btn">一般</button>
+            <button class="option-btn">不满意</button>
+        </div>
+        
+        <div class="comment-section">
+            <textarea class="comment-input" placeholder="请输入您的意见或建议（选填）"></textarea>
+        </div>
+        
+        <button class="btn btn-primary btn-block" onclick="submitRating()">提交评价</button>
+    </div>
+    
+    <div class="thank-you-card">
+        <div class="thank-you-icon">🙏</div>
+        <div class="thank-you-text">感谢您的评价！您的反馈对我们非常重要</div>
+    </div>
+    
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showPage('overview')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reports')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">报告</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reminder')">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">复诊</span>
+        </button>
+        <button class="nav-item" onclick="showPage('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">我的</span>
+        </button>
+    </div>
+</div>
