@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>测试页面</title>
+</head>
+
+<body>
+    <div id="test-div">测试中...</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        console.log('Three.js加载成功');
+        console.log('THREE对象:', THREE);
+
+        // 测试图片加载
+        const img = new Image();
+        img.onload = function () {
+            console.log('图片加载成功');
+        };
+        img.onerror = function (err) {
+            console.error('图片加载失败:', err);
+        };
+        const encodedPath = '/digital-twin/JJI54559656769/map.jpg';
+        console.log('尝试加载图片:', encodedPath);
+        img.src = encodedPath;
+    </script>
+</body>
+
+</html>

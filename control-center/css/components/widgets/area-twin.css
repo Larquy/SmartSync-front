@@ -1,0 +1,85 @@
+/* 院区数字孪生组件 */
+
+.area-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.area-item {
+    padding: 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.area-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.area-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.area-density {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.area-density.high {
+    background: #ffe3e3;
+    color: #c92a2a;
+}
+
+.area-density.medium {
+    background: #fff3bf;
+    color: #e67700;
+}
+
+.area-density.low {
+    background: #d3f9d8;
+    color: #2b8a3e;
+}
+
+.area-info {
+    font-size: 11px;
+    color: #868e96;
+    margin-bottom: 10px;
+}
+
+.area-bar {
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.area-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.density-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #e9ecef;
+    font-size: 11px;
+    color: #868e96;
+}
+
+.legend-bar {
+    flex: 1;
+    height: 4px;
+    background: linear-gradient(to right, #51cf66, #fcc419, #ff6b6b);
+    border-radius: 2px;
+}

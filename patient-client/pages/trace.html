@@ -1,0 +1,101 @@
+<div class="page" id="trace">
+    <div class="header">
+        <div class="header-left">
+            <div class="back-btn" onclick="showPage('overview')">‹</div>
+            <h2 class="header-title">就诊轨迹</h2>
+        </div>
+        <div class="header-right">
+            <span class="trace-date">2026-04-18</span>
+        </div>
+    </div>
+    
+    <div class="trace-map-container">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='280' viewBox='0 0 400 280'%3E%3Crect width='400' height='280' fill='%23f5f7fa'/%3E%3Crect x='20' y='20' width='360' height='240' fill='%23fff' stroke='%23e5e6eb' stroke-width='2' rx='8'/%3E%3Ccircle cx='60' cy='100' r='8' fill='%234a90e2'/%3E%3Ctext x='60' y='85' text-anchor='middle' fill='%234a90e2' font-size='11'%3E起点%3C/text%3E%3Crect x='45' y='85' width='30' height='30' fill='%23e8f4fd' rx='4'/%3E%3Ccircle cx='200' cy='80' r='8' fill='%234a90e2'/%3E%3Crect x='185' y='65' width='30' height='30' fill='%23e8f4fd' rx='4'/%3E%3Ccircle cx='340' cy='120' r='8' fill='%2352c41a'/%3E%3Ctext x='340' y='105' text-anchor='middle' fill='%2352c41a' font-size='11'%3E终点%3C/text%3E%3Crect x='325' y='105' width='30' height='30' fill='%23e6f7e6' rx='4'/%3E%3Cpath d='M60,100 L200,80 L340,120' stroke='%234a90e2' stroke-width='3' fill='none' stroke-dasharray='8,4'/%3E%3Crect x='80' y='150' width='80' height='60' fill='%23fff' stroke='%23e5e6eb' rx='4'/%3E%3Ctext x='120' y='185' text-anchor='middle' fill='%238f959e' font-size='10'%3E诊室区域%3C/text%3E%3Crect x='200' y='160' width='100' height='50' fill='%23fff' stroke='%23e5e6eb' rx='4'/%3E%3Ctext x='250' y='190' text-anchor='middle' fill='%238f959e' font-size='10'%3E检查区域%3C/text%3E%3C/svg%3E" alt="就诊轨迹" class="trace-map">
+    </div>
+    
+    <div class="trace-stats">
+        <div class="trace-stat">
+            <div class="stat-value">1.2 km</div>
+            <div class="stat-label">步行距离</div>
+        </div>
+        <div class="trace-stat">
+            <div class="stat-value">8个</div>
+            <div class="stat-label">途经节点</div>
+        </div>
+        <div class="trace-stat">
+            <div class="stat-value">4h 10m</div>
+            <div class="stat-label">总耗时</div>
+        </div>
+    </div>
+    
+    <div class="timeline-section">
+        <h3 class="section-title">就诊时间线</h3>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-line"></div>
+                <div class="timeline-content">
+                    <div class="timeline-time">09:00</div>
+                    <div class="timeline-title">入院登记</div>
+                    <div class="timeline-location">门诊楼A入口</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-line"></div>
+                <div class="timeline-content">
+                    <div class="timeline-time">09:35</div>
+                    <div class="timeline-title">心内科候诊</div>
+                    <div class="timeline-location">等待时间: 25分钟</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-line"></div>
+                <div class="timeline-content">
+                    <div class="timeline-time">10:00</div>
+                    <div class="timeline-title">心电图检查</div>
+                    <div class="timeline-location">医技楼2层</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-line"></div>
+                <div class="timeline-content">
+                    <div class="timeline-time">10:30</div>
+                    <div class="timeline-title">抽血检验</div>
+                    <div class="timeline-location">检验科</div>
+                </div>
+            </div>
+            <div class="timeline-item last">
+                <div class="timeline-dot completed"></div>
+                <div class="timeline-content">
+                    <div class="timeline-time">11:15</div>
+                    <div class="timeline-title">取药离院</div>
+                    <div class="timeline-location">药房</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary btn-block" onclick="showPage('overview')">重新规划</button>
+    
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showPage('overview')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reports')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">报告</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reminder')">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">复诊</span>
+        </button>
+        <button class="nav-item" onclick="showPage('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">我的</span>
+        </button>
+    </div>
+</div>

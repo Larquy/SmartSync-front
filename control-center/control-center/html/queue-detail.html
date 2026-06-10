@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智环引诊 - 科室排队详情</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/analytics.css">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>智环引诊</h1>
+                <p>云端调度中心</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dispatch.html" class="nav-link active">调度管理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="emergency.html" class="nav-link">紧急情况</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">数据分析</a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">系统设置</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="btn" style="margin-right: 12px; padding: 6px 12px;" onclick="goBack()">返回</button>
+                    <div>
+                        <h2 id="deptTitle">科室排队详情</h2>
+                        <p style="font-size: 13px; color: #666; margin-top: 4px;" id="queueCount">排队总人数：0</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <span class="date-info" id="dateInfo">2026-04-29 14:35:28</span>
+                    <button class="btn success" onclick="exportQueue()">导出列表</button>
+                </div>
+            </header>
+
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <span class="filter-label">排序方式:</span>
+                    <select class="filter-select" onchange="sortQueue()">
+                        <option value="time">按到达时间</option>
+                        <option value="priority">按优先级</option>
+                        <option value="name">按姓名</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">状态:</span>
+                    <select class="filter-select" onchange="filterQueue()">
+                        <option value="all">全部</option>
+                        <option value="waiting">等待中</option>
+                        <option value="calling">叫号中</option>
+                        <option value="completed">已就诊</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="refreshQueue()">刷新</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">排队人员列表</h4>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>年龄</th>
+                                <th>到达时间</th>
+                                <th>等待时长</th>
+                                <th>优先级</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queueTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        setInterval(function () {
+            var date = new Date();
+            var timeString = date.toISOString().replace('T', ' ').substring(0, 19);
+            document.getElementById('dateInfo').textContent = timeString;
+        }, 1000);
+
+        var deptName = getQueryParam('dept') || '内科';
+
+        var queueData = {
+            '内科': [
+                { id: 1, name: '张大爷', gender: '男', age: 72, arrivalTime: '13:45:22', waitingTime: '50分钟', priority: '普通', status: 'waiting' },
+                { id: 2, name: '李女士', gender: '女', age: 45, arrivalTime: '14:05:10', waitingTime: '30分钟', priority: '普通', status: 'waiting' },
+                { id: 3, name: '王小朋友', gender: '男', age: 8, arrivalTime: '14:12:35', waitingTime: '23分钟', priority: '优先', status: 'calling' },
+                { id: 4, name: '赵阿姨', gender: '女', age: 65, arrivalTime: '14:18:40', waitingTime: '17分钟', priority: '普通', status: 'waiting' },
+                { id: 5, name: '刘先生', gender: '男', age: 38, arrivalTime: '14:22:15', waitingTime: '13分钟', priority: '普通', status: 'waiting' },
+                { id: 6, name: '陈奶奶', gender: '女', age: 81, arrivalTime: '14:25:30', waitingTime: '10分钟', priority: '优先', status: 'waiting' },
+                { id: 7, name: '孙大哥', gender: '男', age: 52, arrivalTime: '14:28:45', waitingTime: '7分钟', priority: '普通', status: 'waiting' },
+                { id: 8, name: '周小姐', gender: '女', age: 28, arrivalTime: '14:30:20', waitingTime: '5分钟', priority: '普通', status: 'waiting' },
+                { id: 9, name: '吴大爷', gender: '男', age: 76, arrivalTime: '14:32:10', waitingTime: '3分钟', priority: '优先', status: 'waiting' },
+                { id: 10, name: '郑女士', gender: '女', age: 41, arrivalTime: '14:34:00', waitingTime: '1分钟', priority: '普通', status: 'waiting' },
+                { id: 11, name: '黄先生', gender: '男', age: 55, arrivalTime: '14:35:10', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 12, name: '林阿姨', gender: '女', age: 62, arrivalTime: '14:35:25', waitingTime: '0分钟', priority: '普通', status: 'waiting' }
+            ],
+            '外科': [
+                { id: 1, name: '王先生', gender: '男', age: 35, arrivalTime: '14:00:00', waitingTime: '35分钟', priority: '普通', status: 'waiting' },
+                { id: 2, name: '李女士', gender: '女', age: 28, arrivalTime: '14:10:00', waitingTime: '25分钟', priority: '普通', status: 'waiting' },
+                { id: 3, name: '张大爷', gender: '男', age: 68, arrivalTime: '14:15:00', waitingTime: '20分钟', priority: '优先', status: 'calling' },
+                { id: 4, name: '刘小姐', gender: '女', age: 22, arrivalTime: '14:20:00', waitingTime: '15分钟', priority: '普通', status: 'waiting' },
+                { id: 5, name: '陈先生', gender: '男', age: 45, arrivalTime: '14:25:00', waitingTime: '10分钟', priority: '普通', status: 'waiting' },
+                { id: 6, name: '赵女士', gender: '女', age: 52, arrivalTime: '14:28:00', waitingTime: '7分钟', priority: '普通', status: 'waiting' },
+                { id: 7, name: '孙大哥', gender: '男', age: 38, arrivalTime: '14:32:00', waitingTime: '3分钟', priority: '普通', status: 'waiting' },
+                { id: 8, name: '周先生', gender: '男', age: 42, arrivalTime: '14:35:00', waitingTime: '0分钟', priority: '普通', status: 'waiting' }
+            ],
+            '检验科': [
+                { id: 1, name: '王大爷', gender: '男', age: 70, arrivalTime: '13:30:00', waitingTime: '65分钟', priority: '普通', status: 'waiting' },
+                { id: 2, name: '李女士', gender: '女', age: 35, arrivalTime: '13:40:00', waitingTime: '55分钟', priority: '普通', status: 'waiting' },
+                { id: 3, name: '张阿姨', gender: '女', age: 62, arrivalTime: '13:50:00', waitingTime: '45分钟', priority: '普通', status: 'waiting' },
+                { id: 4, name: '刘先生', gender: '男', age: 48, arrivalTime: '14:00:00', waitingTime: '35分钟', priority: '普通', status: 'waiting' },
+                { id: 5, name: '陈女士', gender: '女', age: 28, arrivalTime: '14:05:00', waitingTime: '30分钟', priority: '普通', status: 'waiting' },
+                { id: 6, name: '赵大爷', gender: '男', age: 75, arrivalTime: '14:10:00', waitingTime: '25分钟', priority: '优先', status: 'calling' },
+                { id: 7, name: '孙女士', gender: '女', age: 42, arrivalTime: '14:15:00', waitingTime: '20分钟', priority: '普通', status: 'waiting' },
+                { id: 8, name: '周先生', gender: '男', age: 36, arrivalTime: '14:20:00', waitingTime: '15分钟', priority: '普通', status: 'waiting' },
+                { id: 9, name: '吴阿姨', gender: '女', age: 58, arrivalTime: '14:22:00', waitingTime: '13分钟', priority: '普通', status: 'waiting' },
+                { id: 10, name: '郑先生', gender: '男', age: 45, arrivalTime: '14:24:00', waitingTime: '11分钟', priority: '普通', status: 'waiting' },
+                { id: 11, name: '黄女士', gender: '女', age: 32, arrivalTime: '14:26:00', waitingTime: '9分钟', priority: '普通', status: 'waiting' },
+                { id: 12, name: '林大爷', gender: '男', age: 68, arrivalTime: '14:28:00', waitingTime: '7分钟', priority: '优先', status: 'waiting' },
+                { id: 13, name: '何先生', gender: '男', age: 38, arrivalTime: '14:30:00', waitingTime: '5分钟', priority: '普通', status: 'waiting' },
+                { id: 14, name: '马女士', gender: '女', age: 46, arrivalTime: '14:31:00', waitingTime: '4分钟', priority: '普通', status: 'waiting' },
+                { id: 15, name: '罗先生', gender: '男', age: 52, arrivalTime: '14:32:00', waitingTime: '3分钟', priority: '普通', status: 'waiting' },
+                { id: 16, name: '梁女士', gender: '女', age: 29, arrivalTime: '14:33:00', waitingTime: '2分钟', priority: '普通', status: 'waiting' },
+                { id: 17, name: '谢大爷', gender: '男', age: 72, arrivalTime: '14:34:00', waitingTime: '1分钟', priority: '优先', status: 'waiting' },
+                { id: 18, name: '韩女士', gender: '女', age: 35, arrivalTime: '14:35:00', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 19, name: '唐先生', gender: '男', age: 41, arrivalTime: '14:35:10', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 20, name: '冯女士', gender: '女', age: 55, arrivalTime: '14:35:20', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 21, name: '袁先生', gender: '男', age: 33, arrivalTime: '14:35:25', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 22, name: '许阿姨', gender: '女', age: 61, arrivalTime: '14:35:28', waitingTime: '0分钟', priority: '优先', status: 'waiting' },
+                { id: 23, name: '杨先生', gender: '男', age: 47, arrivalTime: '14:35:30', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 24, name: '胡女士', gender: '女', age: 39, arrivalTime: '14:35:32', waitingTime: '0分钟', priority: '普通', status: 'waiting' }
+            ],
+            '影像科': [
+                { id: 1, name: '张大爷', gender: '男', age: 68, arrivalTime: '13:50:00', waitingTime: '45分钟', priority: '普通', status: 'waiting' },
+                { id: 2, name: '李女士', gender: '女', age: 42, arrivalTime: '14:00:00', waitingTime: '35分钟', priority: '普通', status: 'waiting' },
+                { id: 3, name: '王阿姨', gender: '女', age: 58, arrivalTime: '14:05:00', waitingTime: '30分钟', priority: '普通', status: 'waiting' },
+                { id: 4, name: '刘先生', gender: '男', age: 35, arrivalTime: '14:10:00', waitingTime: '25分钟', priority: '普通', status: 'calling' },
+                { id: 5, name: '陈女士', gender: '女', age: 28, arrivalTime: '14:12:00', waitingTime: '23分钟', priority: '普通', status: 'waiting' },
+                { id: 6, name: '赵大爷', gender: '男', age: 73, arrivalTime: '14:15:00', waitingTime: '20分钟', priority: '优先', status: 'waiting' },
+                { id: 7, name: '孙小姐', gender: '女', age: 26, arrivalTime: '14:18:00', waitingTime: '17分钟', priority: '普通', status: 'waiting' },
+                { id: 8, name: '周先生', gender: '男', age: 45, arrivalTime: '14:20:00', waitingTime: '15分钟', priority: '普通', status: 'waiting' },
+                { id: 9, name: '吴女士', gender: '女', age: 52, arrivalTime: '14:22:00', waitingTime: '13分钟', priority: '普通', status: 'waiting' },
+                { id: 10, name: '郑大爷', gender: '男', age: 66, arrivalTime: '14:24:00', waitingTime: '11分钟', priority: '优先', status: 'waiting' },
+                { id: 11, name: '黄先生', gender: '男', age: 38, arrivalTime: '14:26:00', waitingTime: '9分钟', priority: '普通', status: 'waiting' },
+                { id: 12, name: '林女士', gender: '女', age: 41, arrivalTime: '14:28:00', waitingTime: '7分钟', priority: '普通', status: 'waiting' },
+                { id: 13, name: '何阿姨', gender: '女', age: 55, arrivalTime: '14:30:00', waitingTime: '5分钟', priority: '普通', status: 'waiting' },
+                { id: 14, name: '马先生', gender: '男', age: 32, arrivalTime: '14:32:00', waitingTime: '3分钟', priority: '普通', status: 'waiting' },
+                { id: 15, name: '罗女士', gender: '女', age: 48, arrivalTime: '14:33:00', waitingTime: '2分钟', priority: '普通', status: 'waiting' },
+                { id: 16, name: '梁大爷', gender: '男', age: 70, arrivalTime: '14:34:00', waitingTime: '1分钟', priority: '优先', status: 'waiting' },
+                { id: 17, name: '谢先生', gender: '男', age: 44, arrivalTime: '14:35:00', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 18, name: '韩女士', gender: '女', age: 36, arrivalTime: '14:35:25', waitingTime: '0分钟', priority: '普通', status: 'waiting' }
+            ],
+            '心内科': [
+                { id: 1, name: '王大爷', gender: '男', age: 75, arrivalTime: '14:00:00', waitingTime: '35分钟', priority: '优先', status: 'waiting' },
+                { id: 2, name: '李女士', gender: '女', age: 52, arrivalTime: '14:05:00', waitingTime: '30分钟', priority: '普通', status: 'waiting' },
+                { id: 3, name: '张先生', gender: '男', age: 62, arrivalTime: '14:10:00', waitingTime: '25分钟', priority: '优先', status: 'calling' },
+                { id: 4, name: '刘阿姨', gender: '女', age: 68, arrivalTime: '14:15:00', waitingTime: '20分钟', priority: '优先', status: 'waiting' },
+                { id: 5, name: '陈先生', gender: '男', age: 45, arrivalTime: '14:18:00', waitingTime: '17分钟', priority: '普通', status: 'waiting' },
+                { id: 6, name: '赵女士', gender: '女', age: 55, arrivalTime: '14:20:00', waitingTime: '15分钟', priority: '普通', status: 'waiting' },
+                { id: 7, name: '孙大爷', gender: '男', age: 72, arrivalTime: '14:22:00', waitingTime: '13分钟', priority: '优先', status: 'waiting' },
+                { id: 8, name: '周女士', gender: '女', age: 48, arrivalTime: '14:25:00', waitingTime: '10分钟', priority: '普通', status: 'waiting' },
+                { id: 9, name: '吴先生', gender: '男', age: 58, arrivalTime: '14:27:00', waitingTime: '8分钟', priority: '普通', status: 'waiting' },
+                { id: 10, name: '郑阿姨', gender: '女', age: 65, arrivalTime: '14:29:00', waitingTime: '6分钟', priority: '优先', status: 'waiting' },
+                { id: 11, name: '黄先生', gender: '男', age: 42, arrivalTime: '14:31:00', waitingTime: '4分钟', priority: '普通', status: 'waiting' },
+                { id: 12, name: '林女士', gender: '女', age: 38, arrivalTime: '14:33:00', waitingTime: '2分钟', priority: '普通', status: 'waiting' },
+                { id: 13, name: '何大爷', gender: '男', age: 70, arrivalTime: '14:34:00', waitingTime: '1分钟', priority: '优先', status: 'waiting' },
+                { id: 14, name: '马女士', gender: '女', age: 50, arrivalTime: '14:35:00', waitingTime: '0分钟', priority: '普通', status: 'waiting' },
+                { id: 15, name: '罗先生', gender: '男', age: 46, arrivalTime: '14:35:20', waitingTime: '0分钟', priority: '普通', status: 'waiting' }
+            ],
+            '急诊科': [
+                { id: 1, name: '张女士', gender: '女', age: 28, arrivalTime: '14:30:00', waitingTime: '5分钟', priority: '紧急', status: 'completed' },
+                { id: 2, name: '李大爷', gender: '男', age: 78, arrivalTime: '14:32:00', waitingTime: '3分钟', priority: '紧急', status: 'calling' },
+                { id: 3, name: '王先生', gender: '男', age: 45, arrivalTime: '14:34:00', waitingTime: '1分钟', priority: '紧急', status: 'waiting' },
+                { id: 4, name: '刘阿姨', gender: '女', age: 62, arrivalTime: '14:35:00', waitingTime: '0分钟', priority: '紧急', status: 'waiting' },
+                { id: 5, name: '陈先生', gender: '男', age: 35, arrivalTime: '14:35:25', waitingTime: '0分钟', priority: '紧急', status: 'waiting' }
+            ]
+        };
+
+        function getQueryParam(name) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        function renderQueue() {
+            var data = queueData[deptName] || [];
+            var tbody = document.getElementById('queueTable');
+            tbody.innerHTML = '';
+
+            data.sort(function (a, b) {
+                var priorityOrder = { '紧急': 0, '优先': 1, '普通': 2 };
+                var statusOrder = { 'calling': 0, 'waiting': 1, 'completed': 2 };
+
+                if (statusOrder[a.status] !== statusOrder[b.status]) {
+                    return statusOrder[a.status] - statusOrder[b.status];
+                }
+
+                return priorityOrder[a.priority] - priorityOrder[b.priority];
+            });
+
+            data.forEach(function (item, index) {
+                var statusClass = item.status === 'waiting' ? 'warning' : (item.status === 'calling' ? 'danger' : 'normal');
+                var statusText = item.status === 'waiting' ? '等待中' : (item.status === 'calling' ? '叫号中' : '已就诊');
+                var priorityClass = item.priority === '优先' || item.priority === '紧急' ? 'danger' : 'normal';
+
+                var row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>${item.gender}</td>
+                    <td>${item.age}岁</td>
+                    <td>${item.arrivalTime}</td>
+                    <td>${item.waitingTime}</td>
+                    <td><span class="status-badge ${priorityClass}">${item.priority}</span></td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        ${item.status !== 'completed' ? '<button class="btn-sm" onclick="callPatient(' + item.id + ')">叫号</button>' : ''}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById('deptTitle').textContent = deptName + ' - 排队详情';
+            document.getElementById('queueCount').textContent = '排队总人数：' + data.length;
+        }
+
+        function goBack() {
+            window.location.href = 'dispatch.html';
+        }
+
+        function exportQueue() {
+            var btn = event.target;
+            btn.innerHTML = '导出中...';
+            btn.disabled = true;
+            setTimeout(function () {
+                btn.innerHTML = '导出列表';
+                btn.disabled = false;
+                alert(deptName + '排队列表导出成功！');
+            }, 1500);
+        }
+
+        function sortQueue() {
+            alert('排序功能已触发');
+        }
+
+        function filterQueue() {
+            alert('筛选功能已触发');
+        }
+
+        function refreshQueue() {
+            var btn = event.target;
+            btn.innerHTML = '刷新中...';
+            btn.disabled = true;
+            setTimeout(function () {
+                btn.innerHTML = '刷新';
+                btn.disabled = false;
+                renderQueue();
+                alert('数据已刷新');
+            }, 1000);
+        }
+
+        function callPatient(id) {
+            alert('正在呼叫患者 #' + id);
+        }
+
+        renderQueue();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<div class="page active" id="home">
+    <div class="home-container">
+        <div class="hero-section">
+            <div class="hero-icon-wrapper">
+                <div class="hero-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="1.5">
+                        <path d="M12 8a3 3 0 00-3-3 3 3 0 00-3 3v8a3 3 0 003 3 3 3 0 003-3V8z"/>
+                        <path d="M12 12h8"/>
+                        <circle cx="12" cy="12" r="1"/>
+                    </svg>
+                </div>
+                <div class="nfc-animation">
+                    <div class="ring r1"></div>
+                    <div class="ring r2"></div>
+                    <div class="ring r3"></div>
+                </div>
+            </div>
+            <h1 class="hero-title">感应就诊手环</h1>
+            <p class="hero-subtitle">正在为您唤醒就诊信息</p>
+            <p class="hero-desc">请将手环靠近感应区</p>
+        </div>
+        
+        <div class="action-section">
+            <button class="btn btn-primary btn-large" onclick="showPage('overview')">开始就诊</button>
+            <button class="btn btn-secondary" onclick="showPage('nfc-bind')">手动绑定手环</button>
+        </div>
+        
+        <div class="tips-section">
+            <div class="tip-item">
+                <span class="tip-icon">📱</span>
+                <span class="tip-text">打开手机NFC功能</span>
+            </div>
+            <div class="tip-item">
+                <span class="tip-icon">📿</span>
+                <span class="tip-text">将手环贴近感应区</span>
+            </div>
+        </div>
+    </div>
+</div>

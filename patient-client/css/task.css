@@ -1,0 +1,22 @@
+.task-detail {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.task-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.task-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.task-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}

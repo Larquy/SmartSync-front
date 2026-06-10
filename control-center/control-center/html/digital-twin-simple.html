@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字孪生 - 简化版测试</title>
+    <link rel="stylesheet" href="../css/digital-twin.css">
+</head>
+
+<body>
+    <div class="twin-container">
+        <aside class="sidebar">
+            <div class="sidebar-section logo-section">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                                fill="#4285f4" />
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>数字孪生</h1>
+                        <p>简化版测试</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="section-title">图层控制</h3>
+                <div class="control-buttons">
+                    <button class="control-btn active" id="toggleNodes" onclick="toggleNodes()">
+                        <span class="btn-icon">📍</span> 节点
+                    </button>
+                    <button class="control-btn active" id="togglePaths" onclick="togglePaths()">
+                        <span class="btn-icon">🛤️</span> 路径
+                    </button>
+                    <button class="control-btn" id="toggleHeatmap" onclick="toggleHeatmap()">
+                        <span class="btn-icon">🌡️</span> 热力图
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="section-title">热力图设置</h3>
+                <div class="heatmap-controls">
+                    <div class="control-group">
+                        <label>热力半径</label>
+                        <input type="range" id="heatmapRadius" min="20" max="150" value="60"
+                            onchange="updateHeatmapParams({radius: parseInt(this.value)})">
+                        <span id="heatmapRadiusValue">60px</span>
+                    </div>
+                    <div class="control-group">
+                        <label>热力强度</label>
+                        <input type="range" id="heatmapIntensity" min="10" max="100" value="80"
+                            onchange="updateHeatmapParams({intensity: parseInt(this.value) / 100})">
+                        <span id="heatmapIntensityValue">80%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>热力样式</label>
+                        <select id="heatmapGradient" onchange="updateHeatmapParams({gradient: this.value})">
+                            <option value="classic" selected>经典渐变</option>
+                            <option value="fire">火焰渐变</option>
+                            <option value="purple">紫色渐变</option>
+                            <option value="cyberpunk">赛博朋克</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="heatmapAnimation" checked
+                                onchange="updateHeatmapParams({animation: this.checked})">
+                            动态效果
+                        </label>
+                        <div class="heatmap-animation-indicator" id="heatmapIndicator" style="display: none;">
+                            <span class="heatmap-animation-dot"></span>
+                            <span>动画运行中</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="section-title">统计信息</h3>
+                <p>节点数量: <span id="onlineSubstations">-</span></p>
+                <button onclick="resetView()"
+                    style="margin-top: 10px; padding: 8px 16px; background: #4285f4; color: white; border: none; border-radius: 4px; cursor: pointer;">重置视图</button>
+            </div>
+        </aside>
+
+        <div id="twin-canvas-container" style="flex: 1; position: relative;">
+            <div id="loading-overlay"
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; color: #666;">
+                加载中...
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../js/digital-twin-simple.js"></script>
+</body>
+
+</html>

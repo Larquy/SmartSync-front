@@ -1,0 +1,89 @@
+<div class="page" id="queue">
+    <div class="header">
+        <div class="header-left">
+            <div class="back-btn" onclick="showPage('progress')">‹</div>
+            <h2 class="header-title">心电图检查 (3F)</h2>
+        </div>
+    </div>
+    
+    <div class="queue-card">
+        <div class="queue-header">
+            <span class="queue-label">当前排队</span>
+        </div>
+        <div class="queue-number-wrapper">
+            <span class="queue-number">第12号</span>
+        </div>
+        <div class="queue-info">
+            <span class="queue-wait">预计等待 15分钟</span>
+        </div>
+    </div>
+    
+    <div class="queue-stats">
+        <div class="queue-stat">
+            <div class="stat-value">11人</div>
+            <div class="stat-label">前面等待人数</div>
+        </div>
+        <div class="queue-stat">
+            <div class="stat-value">1.5分钟</div>
+            <div class="stat-label">平均就诊时长</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h3 class="section-title">排队提醒</h3>
+        <div class="reminder-card">
+            <div class="reminder-icon">🔔</div>
+            <div class="reminder-content">
+                <div class="reminder-title">轮到您时将提醒</div>
+                <div class="reminder-desc">您可以在休息区等待，我们会通过语音和震动提醒您</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h3 class="section-title">当前进度</h3>
+        <div class="current-progress">
+            <div class="progress-item">
+                <span class="progress-number">8号</span>
+                <span class="progress-status">就诊中</span>
+            </div>
+            <div class="progress-item">
+                <span class="progress-number">9号</span>
+                <span class="progress-status">准备中</span>
+            </div>
+            <div class="progress-item">
+                <span class="progress-number">10号</span>
+                <span class="progress-status">等待中</span>
+            </div>
+            <div class="progress-item">
+                <span class="progress-number">11号</span>
+                <span class="progress-status">等待中</span>
+            </div>
+            <div class="progress-item current">
+                <span class="progress-number">12号</span>
+                <span class="progress-status">您</span>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary btn-block" onclick="showPage('chat')">语音咨询</button>
+    
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showPage('overview')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reports')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">报告</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reminder')">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">复诊</span>
+        </button>
+        <button class="nav-item" onclick="showPage('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">我的</span>
+        </button>
+    </div>
+</div>

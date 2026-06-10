@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2C3E50">
+    <title>智环引诊 - 患者服务</title>
+    <style>
+        :root {
+            --primary-color: #2C3E50;
+            --accent-color: #3498DB;
+            --success-color: #27AE60;
+            --warning-color: #F39C12;
+            --danger-color: #E74C3C;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+            --text-primary: #1A1A1A;
+            --text-secondary: #5A5A5A;
+            --text-muted: #9A9A9A;
+            --border-color: #E0E0E0;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --font-size-xs: 12px;
+            --font-size-sm: 13px;
+            --font-size-base: 14px;
+            --font-size-md: 15px;
+            --font-size-lg: 17px;
+            --font-size-xl: 20px;
+            --font-size-xxl: 26px;
+        }
+
+        body.elder-mode {
+            --font-size-xs: 14px;
+            --font-size-sm: 16px;
+            --font-size-base: 18px;
+            --font-size-md: 20px;
+            --font-size-lg: 22px;
+            --font-size-xl: 26px;
+            --font-size-xxl: 32px;
+            --accent-color: #2980B9;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --text-muted: #666666;
+            --border-color: #CCCCCC;
+            --bg-secondary: #F0F0F0;
+            --btn-min-height: 56px;
+            --btn-gap: 16px;
+            --border-width: 2px;
+        }
+
+        body.high-contrast {
+            --bg-primary: #0D0D0D;
+            --bg-secondary: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #E5E5E5;
+            --text-muted: #B0B0B0;
+            --border-color: #404040;
+            --accent-color: #5BA3E8;
+            --success-color: #67C23A;
+            --warning-color: #FAB005;
+            --danger-color: #FF5252;
+            --btn-min-height: 56px;
+        }
+
+        body.font-large {
+            --font-size-xs: 16px;
+            --font-size-sm: 18px;
+            --font-size-base: 20px;
+            --font-size-md: 22px;
+            --font-size-lg: 24px;
+            --font-size-xl: 28px;
+            --font-size-xxl: 34px;
+            --btn-min-height: 60px;
+        }
+
+        body.font-xlarge {
+            --font-size-xs: 18px;
+            --font-size-sm: 20px;
+            --font-size-base: 22px;
+            --font-size-md: 24px;
+            --font-size-lg: 28px;
+            --font-size-xl: 32px;
+            --font-size-xxl: 40px;
+            --btn-min-height: 68px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg-secondary);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-wrapper {
+            max-width: 420px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-right: 12px;
+            color: var(--text-secondary);
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-gradient {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.08), rgba(52, 152, 219, 0.02));
+            border-color: rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: var(--btn-min-height, 52px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-color), #2980B9);
+            color: #FFFFFF;
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-color);
+            color: #FFFFFF;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+            padding: 8px 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .nav-item .nav-text {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .nav-item.active .nav-text {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .nav-item::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+        }
+
+        .nav-item.active::before {
+            background: var(--accent-color);
+            transform: scale(1.3);
+        }
+
+        .home-container {
+            min-height: 100vh;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+        }
+
+        .home-actions {
+            width: 100%;
+            max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        .patient-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .patient-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent-color), #2980B9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .patient-info {
+            flex: 1;
+        }
+
+        .patient-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .patient-detail {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .info-row:not(:last-child) {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .highlight {
+            color: var(--accent-color);
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .progress-title {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .progress-timeline {
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .progress-timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-color);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .progress-item.completed .progress-dot {
+            background: var(--success-color);
+        }
+
+        .progress-item.active .progress-dot {
+            background: var(--accent-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(52, 152, 219, 0);
+            }
+        }
+
+        .progress-step {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .progress-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .task-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-color), #2980B9);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-text {
+            font-size: var(--font-size-md);
+            color: var(--text-primary);
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(0, 0, 0, 0.85);
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            max-width: 320px;
+            text-align: center;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: rgba(39, 174, 96, 0.9);
+        }
+
+        .toast.error {
+            background: rgba(255, 77, 79, 0.9);
+        }
+
+        .elder-toggle {
+            position: relative;
+            width: 56px;
+            height: 32px;
+            cursor: pointer;
+        }
+
+        .elder-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #CCCCCC;
+            border-radius: 32px;
+            transition: background 0.3s ease;
+        }
+
+        .elder-toggle input:checked+.toggle-track {
+            background: var(--accent-color);
+        }
+
+        .toggle-thumb {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 26px;
+            height: 26px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .elder-toggle input:checked~.toggle-thumb {
+            transform: translateX(27px);
+        }
+
+        body.high-contrast .card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        body.high-contrast .card-gradient {
+            background: linear-gradient(135deg, rgba(91, 163, 232, 0.15), rgba(91, 163, 232, 0.05));
+            border-color: rgba(91, 163, 232, 0.3);
+        }
+
+        body.high-contrast .btn-primary {
+            background: linear-gradient(135deg, var(--accent-color), #3D7BC9);
+            box-shadow: 0 4px 12px rgba(91, 163, 232, 0.3);
+            border: none;
+        }
+
+        body.high-contrast .btn-secondary {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        body.high-contrast .btn-outline {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        body.high-contrast .btn-outline:hover {
+            background: var(--accent-color);
+            color: #FFFFFF;
+        }
+
+        body.high-contrast .bottom-nav {
+            background: var(--bg-primary);
+            border-top: 2px solid var(--border-color);
+        }
+
+        body.high-contrast .nav-item {
+            color: var(--text-muted);
+        }
+
+        body.high-contrast .nav-item.active {
+            color: var(--accent-color);
+        }
+
+        body.high-contrast .nav-item.active::before {
+            background: var(--accent-color);
+            box-shadow: 0 0 8px var(--accent-color);
+        }
+
+        body.high-contrast .header {
+            background: var(--bg-primary);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        body.high-contrast .back-btn {
+            color: var(--text-primary);
+        }
+
+        body.high-contrast .progress-dot {
+            background: var(--border-color);
+        }
+
+        body.high-contrast .progress-item.completed .progress-dot {
+            background: var(--success-color);
+            box-shadow: 0 0 8px rgba(103, 194, 58, 0.5);
+        }
+
+        body.high-contrast .progress-item.active .progress-dot {
+            background: var(--accent-color);
+            box-shadow: 0 0 8px rgba(91, 163, 232, 0.5);
+        }
+
+        body.high-contrast .progress-item.completed::after {
+            background: var(--success-color);
+        }
+
+        body.high-contrast .toggle-track {
+            background: #333333;
+        }
+
+        body.high-contrast .elder-toggle input:checked+.toggle-track {
+            background: var(--accent-color);
+            box-shadow: 0 0 8px rgba(91, 163, 232, 0.5);
+        }
+
+        body.high-contrast .toggle-thumb {
+            background: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        body.high-contrast .patient-card {
+            background: linear-gradient(135deg, rgba(91, 163, 232, 0.2), rgba(91, 163, 232, 0.1));
+            border-color: rgba(91, 163, 232, 0.3);
+        }
+
+        body.high-contrast .patient-avatar {
+            background: rgba(91, 163, 232, 0.3);
+            border: 3px solid var(--accent-color);
+        }
+
+        body.high-contrast textarea,
+        body.high-contrast input {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        body.high-contrast textarea::placeholder,
+        body.high-contrast input::placeholder {
+            color: var(--text-muted);
+        }
+
+        body.high-contrast * {
+            color: var(--text-primary) !important;
+        }
+
+        body.high-contrast .btn-primary,
+        body.high-contrast .btn-primary *,
+        body.high-contrast .btn-secondary,
+        body.high-contrast .btn-secondary *,
+        body.high-contrast .btn-outline,
+        body.high-contrast .btn-outline *,
+        body.high-contrast .toast,
+        body.high-contrast .toast *,
+        body.high-contrast .patient-avatar,
+        body.high-contrast .patient-avatar *,
+        body.high-contrast .task-icon,
+        body.high-contrast .task-icon *,
+        body.high-contrast .nav-item,
+        body.high-contrast .nav-item *,
+        body.high-contrast .highlight,
+        body.high-contrast .star,
+        body.high-contrast .star.active,
+        body.high-contrast .progress-step,
+        body.high-contrast .progress-time,
+        body.high-contrast .info-label,
+        body.high-contrast .info-value {
+            color: inherit !important;
+        }
+
+        body.high-contrast .btn-primary,
+        body.high-contrast .btn-primary span,
+        body.high-contrast .btn-outline:hover,
+        body.high-contrast .btn-outline:hover span {
+            color: #FFFFFF !important;
+        }
+
+        body.high-contrast textarea::placeholder,
+        body.high-contrast input::placeholder {
+            color: var(--text-muted) !important;
+        }
+
+        .quick-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 12px;
+            min-height: 48px;
+        }
+
+        body.high-contrast .quick-btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-wrapper">
+        <div class="page active" id="home">
+            <div class="home-container">
+                <div style="text-align: center; padding: 40px 24px;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent-color), #2980B9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                        <span style="font-size: 36px; color: #FFFFFF; font-weight: 700;">智</span>
+                    </div>
+                    <h1
+                        style="font-size: var(--font-size-xxl); font-weight: 700; color: var(--text-primary); margin-bottom: 12px;">
+                        智环引诊</h1>
+                    <p style="font-size: var(--font-size-md); color: var(--text-secondary); margin-bottom: 40px;">
+                        智能就诊导航系统</p>
+
+                    <div style="margin-bottom: 20px;">
+                        <p style="font-size: var(--font-size-base); color: var(--text-muted); margin-bottom: 16px;">
+                            请选择您的身份</p>
+                        <button class="btn btn-primary btn-block" style="padding: 20px; margin-bottom: 16px;"
+                            onclick="selectPatient()">
+                            <div style="font-size: var(--font-size-lg); font-weight: 600; margin-bottom: 4px;">我是患者
+                            </div>
+                            <div style="font-size: var(--font-size-sm); opacity: 0.8;">开始就诊流程，使用手环导航</div>
+                        </button>
+                        <button class="btn btn-secondary btn-block" style="padding: 20px;" onclick="selectFamily()">
+                            <div style="font-size: var(--font-size-lg); font-weight: 600; margin-bottom: 4px;">我是家属
+                            </div>
+                            <div style="font-size: var(--font-size-sm); opacity: 0.8;">查看家人就诊进度和位置</div>
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 40px;">
+                        <p style="font-size: 12px; color: var(--text-muted);">支持老年模式和深色模式</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="overview">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('home')">‹</button>
+                    <div class="header-title">就诊概览</div>
+                    <span
+                        style="margin-left: auto; background: rgba(52, 152, 219, 0.1); color: var(--accent-color); padding: 4px 12px; border-radius: 12px; font-size: 12px;">今日已完成
+                        5/8 项</span>
+                </div>
+
+                <div class="card patient-card">
+                    <div class="patient-avatar">王</div>
+                    <div class="patient-info">
+                        <div class="patient-name">王大爷</div>
+                        <div class="patient-detail">ID: #8102 | 男 | 72岁</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-weight: 600; color: var(--accent-color);">心内科诊室</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">3F 心内科</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 14px;">
+                        <div class="info-row">
+                            <span class="info-label">就诊时间</span>
+                            <span class="info-value">14:30</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">预计等待</span>
+                            <span class="info-value highlight">28分钟</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" style="margin-top: 16px;"
+                        onclick="showPage('navigation')">查看路线</button>
+                    <div style="display: flex; gap: 12px; margin-top: 12px;">
+                        <button class="btn btn-secondary" style="flex: 1;" onclick="showPage('chat')">咨询</button>
+                        <button class="btn btn-secondary" style="flex: 1;" onclick="showPage('emergency')">求助</button>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-title">就诊进度</div>
+                    <div class="progress-timeline">
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">挂号</div>
+                                <div class="progress-time">09:00</div>
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">就诊</div>
+                                <div class="progress-time">09:30</div>
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">检查</div>
+                                <div class="progress-time">10:15</div>
+                            </div>
+                        </div>
+                        <div class="progress-item active">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">心电图检查</div>
+                                <div class="progress-time">进行中</div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">血液化验</div>
+                                <div class="progress-time">待进行</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 16px; border: 2px dashed var(--border-color);">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; padding: 16px;">
+                        <div
+                            style="width: 40px; height: 40px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                            ↺</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">手环归还</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">就诊完成后请归还手环</div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="showPage('return-bracelet')">立即归还</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button class="nav-item active" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="return-bracelet">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">手环归还</div>
+                </div>
+                <div class="card" style="text-align: center; padding: 32px;">
+                    <div
+                        style="width: 80px; height: 80px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                        <div style="font-size: 36px;">↺</div>
+                    </div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: 600; margin-bottom: 12px;">请将手环归还</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">感谢您使用智环引诊服务，请将手环归还至服务台</p>
+                    <button class="btn btn-primary btn-block" onclick="confirmReturn()">确认归还</button>
+                </div>
+                <div class="card" style="margin-top: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 12px;">就诊完成提示</div>
+                    <ul
+                        style="list-style: none; padding-left: 0; font-size: var(--font-size-sm); color: var(--text-secondary);">
+                        <li style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                            <span
+                                style="width: 4px; height: 4px; background: var(--accent-color); border-radius: 50%;"></span>
+                            请携带好个人物品
+                        </li>
+                        <li style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                            <span
+                                style="width: 4px; height: 4px; background: var(--accent-color); border-radius: 50%;"></span>
+                            检查是否遗漏随身物品
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 8px;">
+                            <span
+                                style="width: 4px; height: 4px; background: var(--accent-color); border-radius: 50%;"></span>
+                            如有需要可打印就诊报告
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item active" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="navigation">
+            <div style="padding: 24px; padding-bottom: 90px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">导航指引</div>
+                </div>
+                <div class="card">
+                    <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                        <div class="task-icon">GPS</div>
+                        <div>
+                            <div style="font-weight: 600;">目的地</div>
+                            <div style="font-size: 12px; color: var(--accent-color);">3F 心内科诊室</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                        <div class="info-label" style="flex: 1;">步行时间</div>
+                        <div class="info-value highlight">约5分钟</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 16px;">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                            <div
+                                style="width: 32px; height: 32px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 600; font-size: 14px;">
+                                1</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 500;">从当前位置出发</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">门诊楼1层大厅</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                            <div
+                                style="width: 24px; height: 24px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <span style="font-size: 12px; color: var(--accent-color); font-weight: 600;">→</span>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 500;">乘坐电梯上3楼</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">电梯在走廊尽头左转</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div
+                                style="width: 24px; height: 24px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <span style="font-size: 12px; color: var(--accent-color); font-weight: 600;">→</span>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 500;">出电梯左转</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">诊室在走廊尽头</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" style="margin-top: 20px;"
+                        onclick="showToast('导航已开始')">开始导航</button>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item active" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="chat">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">智能咨询</div>
+                </div>
+                <div class="card">
+                    <div style="display: flex; gap: 12px;">
+                        <div class="task-icon" style="width: 40px; height: 40px; font-size: 12px;">AI</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 4px;">智能助手</div>
+                            <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                您好！我是您的智能就医助手。请问有什么可以帮助您的？
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 12px;">
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <div
+                            style="width: 40px; height: 40px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 600; flex-shrink: 0;">
+                            王</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 4px;">王大爷</div>
+                            <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                心内科诊室怎么走？
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div style="display: flex; gap: 12px;">
+                        <input type="text" id="chatInput"
+                            style="flex: 1; padding: 14px 16px; background: var(--bg-secondary); border: none; border-radius: var(--radius-md); font-size: 14px;"
+                            placeholder="输入您的问题...">
+                        <button class="btn btn-primary" style="padding: 14px 20px;" onclick="sendMessage()">发送</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="emergency">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">紧急求助</div>
+                </div>
+                <div class="card" style="text-align: center; padding: 40px;">
+                    <div
+                        style="width: 100px; height: 100px; background: rgba(231, 76, 60, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                        <span style="font-size: 48px; color: var(--danger-color);">!</span>
+                    </div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: 600; margin-bottom: 12px;">需要紧急帮助？</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 32px;">点击下方按钮，系统将通知医护人员为您提供帮助</p>
+                    <button
+                        style="background: linear-gradient(135deg, var(--danger-color), #C0392B); color: #FFFFFF; padding: 18px 48px; font-size: 16px; border: none; border-radius: var(--radius-md);"
+                        onclick="confirmEmergency()">确认求助</button>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="reports">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">就诊报告</div>
+                </div>
+                <div class="card" onclick="showPage('report-detail')">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="font-weight: 600;">血常规检查</div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">2024-01-15 10:30
+                            </div>
+                        </div>
+                        <span
+                            style="font-size: 11px; padding: 4px 10px; border-radius: 10px; background: rgba(39, 174, 96, 0.1); color: var(--success-color);">已出具</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="font-weight: 600;">心电图检查</div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">2024-01-15 11:00
+                            </div>
+                        </div>
+                        <span
+                            style="font-size: 11px; padding: 4px 10px; border-radius: 10px; background: rgba(243, 156, 18, 0.1); color: var(--warning-color);">检验中</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item active" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="report-detail">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('reports')">‹</button>
+                    <div class="header-title">报告详情</div>
+                </div>
+                <div class="card">
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-weight: 600; font-size: var(--font-size-md);">血常规检查</div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">2024-01-15 10:30</div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">白细胞</span>
+                        <span class="info-value">6.5 ×10^9/L</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">红细胞</span>
+                        <span class="info-value">4.8 ×10^12/L</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">血红蛋白</span>
+                        <span class="info-value">142 g/L</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">血小板</span>
+                        <span class="info-value">215 ×10^9/L</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="downloadReport()">下载报告</button>
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="shareReport()">分享报告</button>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="reminder">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">复诊提醒</div>
+                </div>
+                <div class="card">
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                        <div class="task-icon" style="background: var(--success-color);">R</div>
+                        <div>
+                            <div style="font-weight: 600;">复诊预约</div>
+                            <div style="font-size: 12px; color: var(--accent-color);">心内科</div>
+                        </div>
+                    </div>
+                    <div
+                        style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px;">
+                        <div class="info-row">
+                            <span class="info-label">预约日期</span>
+                            <span class="info-value highlight">2024-01-22</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">预约时间</span>
+                            <span class="info-value">09:00</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">医生</span>
+                            <span class="info-value">张主任医师</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" style="margin-top: 20px;"
+                        onclick="addToCalendar()">添加到日历</button>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item active" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="rating">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">满意度评价</div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: var(--font-size-lg); font-weight: 600; margin-bottom: 8px;">感谢您使用智环引诊</div>
+                    <div style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 24px;">
+                        请您对本次就诊体验进行评价</div>
+                    <div class="stars">
+                        <span class="star" onclick="setRating(1)">★</span>
+                        <span class="star" onclick="setRating(2)">★</span>
+                        <span class="star" onclick="setRating(3)">★</span>
+                        <span class="star" onclick="setRating(4)">★</span>
+                        <span class="star" onclick="setRating(5)">★</span>
+                    </div>
+                    <div style="text-align: center; font-size: 13px; color: var(--text-muted); margin-bottom: 24px;"
+                        id="ratingText">请选择评分</div>
+                    <textarea
+                        style="width: 100%; height: 80px; padding: 12px; background: var(--bg-secondary); border: none; border-radius: var(--radius-md); font-size: 14px;"
+                        placeholder="请输入您的意见或建议（选填）"></textarea>
+                    <button class="btn btn-primary btn-block" style="margin-top: 20px;"
+                        onclick="submitRating()">提交评价</button>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item active" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="trace">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('profile')">‹</button>
+                    <div class="header-title">就诊轨迹</div>
+                </div>
+                <div class="card">
+                    <div class="progress-title">今日就诊行程</div>
+                    <div class="progress-timeline">
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">到达医院</div>
+                                <div class="progress-time">08:30</div>
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">挂号</div>
+                                <div class="progress-time">08:45</div>
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">心内科就诊</div>
+                                <div class="progress-time">09:00 - 09:30</div>
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">血常规检查</div>
+                                <div class="progress-time">09:45 - 10:15</div>
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">心电图检查</div>
+                                <div class="progress-time">10:30 - 11:00</div>
+                            </div>
+                        </div>
+                        <div class="progress-item active">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">等待检查结果</div>
+                                <div class="progress-time">11:00 - 11:30</div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-dot"></div>
+                            <div>
+                                <div class="progress-step">取药</div>
+                                <div class="progress-time">待进行</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600;">总就诊时长</div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">自进入医院起</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 28px; font-weight: 700; color: var(--accent-color);">1小时15分</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">预计剩余30分钟</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="showPage('overview')">返回就诊概览</button>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item active" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="profile">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('overview')">‹</button>
+                    <div class="header-title">个人中心</div>
+                </div>
+
+                <div class="card patient-card" style="cursor: pointer;">
+                    <div class="patient-avatar">王</div>
+                    <div class="patient-info">
+                        <div class="patient-name">王大爷</div>
+                        <div class="patient-detail">ID: #8102 | 男 | 72岁</div>
+                    </div>
+                </div>
+
+                <button class="menu-item" onclick="showPage('reports')">
+                    <span class="menu-text">就诊报告</span>
+                    <span style="color: var(--text-muted);">›</span>
+                </button>
+                <button class="menu-item" onclick="showPage('reminder')">
+                    <span class="menu-text">复诊提醒</span>
+                    <span style="color: var(--text-muted);">›</span>
+                </button>
+                <button class="menu-item" onclick="showPage('trace')">
+                    <span class="menu-text">就诊轨迹</span>
+                    <span style="color: var(--text-muted);">›</span>
+                </button>
+                <button class="menu-item" onclick="showPage('family-mode')">
+                    <span class="menu-text">家属关怀模式</span>
+                    <span style="color: var(--text-muted);">›</span>
+                </button>
+                <div class="card" style="padding: 20px 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; font-size: var(--font-size-md);">老年模式</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted); margin-top: 4px;">
+                                简化操作流程，一键完成常用功能</div>
+                        </div>
+                        <label class="elder-toggle">
+                            <input type="checkbox" onchange="toggleElderMode(this)">
+                            <span class="toggle-track"></span>
+                            <span class="toggle-thumb"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card" style="padding: 20px 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; font-size: var(--font-size-md);">深色模式</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted); margin-top: 4px;">
+                                开启深色主题，减少眼睛疲劳</div>
+                        </div>
+                        <label class="elder-toggle">
+                            <input type="checkbox" onchange="toggleHighContrast(this)">
+                            <span class="toggle-track"></span>
+                            <span class="toggle-thumb"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item active" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+
+        <div class="page" id="family-mode">
+            <div style="padding: 24px; padding-bottom: 80px;">
+                <div class="header">
+                    <button class="back-btn" onclick="showPage('profile')">‹</button>
+                    <div class="header-title">家属关怀模式</div>
+                </div>
+                <div class="card" style="padding: 20px 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; font-size: var(--font-size-md);">家属关怀模式</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted); margin-top: 4px;">
+                                实时查看家人就诊进度和位置</div>
+                        </div>
+                        <label class="elder-toggle">
+                            <input type="checkbox" onchange="toggleFamilyMode(this)">
+                            <span class="toggle-track"></span>
+                            <span class="toggle-thumb"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card" id="family-view" style="display: none; margin-top: 16px;">
+                    <div style="font-weight: 600; font-size: var(--font-size-md); margin-bottom: 16px;">家人就诊状态</div>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(91, 163, 232, 0.1), rgba(91, 163, 232, 0.05)); border-radius: var(--radius-md); padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                            <div
+                                style="width: 56px; height: 56px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #FFFFFF;">
+                                王</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; font-size: var(--font-size-md);">王小明</div>
+                                <div style="font-size: var(--font-size-sm); color: var(--text-muted);">儿子 · 心内科就诊中</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div
+                                    style="width: 10px; height: 10px; background: var(--success-color); border-radius: 50%; margin-left: auto; box-shadow: 0 0 8px var(--success-color);">
+                                </div>
+                                <div style="font-size: 10px; color: var(--success-color); margin-top: 4px;">在线</div>
+                            </div>
+                        </div>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+                            <div
+                                style="text-align: center; padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div
+                                    style="font-size: var(--font-size-lg); font-weight: 700; color: var(--accent-color);">
+                                    3F</div>
+                                <div style="font-size: 10px; color: var(--text-muted);">当前楼层</div>
+                            </div>
+                            <div
+                                style="text-align: center; padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div
+                                    style="font-size: var(--font-size-lg); font-weight: 700; color: var(--success-color);">
+                                    28分</div>
+                                <div style="font-size: 10px; color: var(--text-muted);">预计等待</div>
+                            </div>
+                            <div
+                                style="text-align: center; padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div
+                                    style="font-size: var(--font-size-lg); font-weight: 700; color: var(--warning-color);">
+                                    3/5</div>
+                                <div style="font-size: 10px; color: var(--text-muted);">就诊进度</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px;">
+                            <button class="btn btn-secondary" style="flex: 1;"
+                                onclick="viewFamilyProgress()">查看详情</button>
+                            <button class="btn btn-primary" style="flex: 1;" onclick="callFamily()">联系家人</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="font-weight: 600; margin-bottom: 8px;">绑定家人手环</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+                        为家人绑定手环后，您可以实时查看他们的就诊进度和位置信息。</div>
+                    <div style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div
+                                style="width: 40px; height: 40px; background: rgba(52, 152, 219, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--accent-color);">
+                                W</div>
+                            <div>
+                                <div style="font-weight: 600;">王小明</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">儿子 · 138****5678</div>
+                            </div>
+                            <span
+                                style="margin-left: auto; font-size: 11px; padding: 4px 10px; border-radius: 10px; background: rgba(39, 174, 96, 0.1); color: var(--success-color);">已关联</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" style="margin-top: 16px;"
+                        onclick="bindFamily()">绑定手环</button>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="showPage('overview')"><span class="nav-text">首页</span></button>
+                <button class="nav-item" onclick="showPage('reports')"><span class="nav-text">报告</span></button>
+                <button class="nav-item" onclick="showPage('reminder')"><span class="nav-text">复诊</span></button>
+                <button class="nav-item active" onclick="showPage('profile')"><span class="nav-text">我的</span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function toggleElderMode(checkbox) {
+            if (checkbox.checked) {
+                document.body.classList.add('elder-mode');
+                localStorage.setItem('elderMode', 'true');
+                showToast('已开启老年模式', 'success');
+            } else {
+                document.body.classList.remove('elder-mode');
+                localStorage.setItem('elderMode', 'false');
+                showToast('已关闭老年模式', 'info');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const firstVisit = localStorage.getItem('firstVisit');
+            if (!firstVisit) {
+                localStorage.clear();
+                localStorage.setItem('firstVisit', 'true');
+                localStorage.setItem('elderMode', 'false');
+                localStorage.setItem('highContrast', 'false');
+            }
+
+            const elderMode = localStorage.getItem('elderMode');
+            if (elderMode === 'true') {
+                document.body.classList.add('elder-mode');
+            }
+            const highContrast = localStorage.getItem('highContrast');
+            if (highContrast === 'true') {
+                document.body.classList.add('high-contrast');
+            }
+            const fontSize = localStorage.getItem('fontSize');
+            if (fontSize) {
+                setFontSize(fontSize);
+            }
+            const voiceEnabled = localStorage.getItem('voiceEnabled');
+            if (voiceEnabled === 'true') {
+                window.voiceEnabled = true;
+            }
+        });
+
+        function toggleHighContrast(checkbox) {
+            if (checkbox.checked) {
+                document.body.classList.add('high-contrast');
+                localStorage.setItem('highContrast', 'true');
+                showToast('已开启深色模式', 'success');
+            } else {
+                document.body.classList.remove('high-contrast');
+                localStorage.setItem('highContrast', 'false');
+                showToast('已关闭深色模式', 'info');
+            }
+        }
+
+        function setFontSize(size) {
+            localStorage.setItem('fontSize', size);
+            document.body.classList.remove('font-large', 'font-xlarge');
+            if (size === 'large') {
+                document.body.classList.add('font-large');
+                showToast('字体已调整为大', 'success');
+            } else if (size === 'xlarge') {
+                document.body.classList.add('font-xlarge');
+                showToast('字体已调整为特大', 'success');
+            } else {
+                showToast('字体已调整为标准', 'success');
+            }
+        }
+
+        function toggleVoice(checkbox) {
+            if (checkbox.checked) {
+                window.voiceEnabled = true;
+                localStorage.setItem('voiceEnabled', 'true');
+                showToast('已开启语音播报', 'success');
+                speak('已开启语音播报功能');
+            } else {
+                window.voiceEnabled = false;
+                localStorage.setItem('voiceEnabled', 'false');
+                showToast('已关闭语音播报', 'info');
+            }
+        }
+
+        function speak(text) {
+            if (window.voiceEnabled && 'speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function confirmReturn() {
+            showToast('手环已归还，感谢您的使用！', 'success');
+            setTimeout(() => {
+                showPage('rating');
+            }, 1500);
+        }
+
+        function toggleFamilyMode(checkbox) {
+            if (checkbox.checked) {
+                document.body.classList.add('family-mode');
+                localStorage.setItem('familyMode', 'true');
+                showToast('已开启家属关怀模式', 'success');
+                showFamilyView();
+            } else {
+                document.body.classList.remove('family-mode');
+                localStorage.setItem('familyMode', 'false');
+                showToast('已关闭家属关怀模式', 'info');
+                hideFamilyView();
+            }
+        }
+
+        function showFamilyView() {
+            const familyView = document.getElementById('family-view');
+            if (familyView) {
+                familyView.style.display = 'block';
+            }
+        }
+
+        function hideFamilyView() {
+            const familyView = document.getElementById('family-view');
+            if (familyView) {
+                familyView.style.display = 'none';
+            }
+        }
+
+        function viewFamilyProgress() {
+            showToast('正在查看就诊详情...', 'info');
+            setTimeout(() => {
+                showPage('overview');
+            }, 1000);
+        }
+
+        function callFamily() {
+            showToast('正在拨打家人电话...', 'info');
+            setTimeout(() => {
+                showToast('电话已接通', 'success');
+            }, 1500);
+        }
+
+        function selectPatient() {
+            localStorage.setItem('identity', 'patient');
+            setTimeout(() => {
+                showPage('overview');
+            }, 1000);
+        }
+
+        function selectFamily() {
+            localStorage.setItem('identity', 'family');
+            showToast('已切换到家属模式', 'success');
+            setTimeout(() => {
+                showPage('family-mode');
+            }, 1000);
+        }
+
+        function setRating(stars) {
+            document.querySelectorAll('.star').forEach((star, i) => star.classList.toggle('active', i < stars));
+            const texts = ['非常不满意', '不满意', '一般', '满意', '非常满意'];
+            document.getElementById('ratingText').textContent = stars > 0 ? texts[stars - 1] : '请选择评分';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            if (input.value.trim()) { showToast('消息已发送'); input.value = ''; }
+        }
+
+        function simulateNfcBind() { showToast('正在写入...'); setTimeout(() => { showToast('绑定成功！', 'success'); setTimeout(() => showPage('overview'), 1000); }, 1500); }
+        function confirmEmergency() { showToast('已通知医护人员！', 'success'); }
+        function downloadReport() { showToast('报告已下载', 'success'); }
+        function shareReport() { showToast('链接已复制', 'success'); }
+        function addToCalendar() { showToast('已添加到日历', 'success'); }
+        function submitRating() { showToast('感谢您的评价！', 'success'); setTimeout(() => showPage('overview'), 1000); }
+        function bindFamily() { showToast('绑定成功！', 'success'); }
+    </script>
+</body>
+
+</html>

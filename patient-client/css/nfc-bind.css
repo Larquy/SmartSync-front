@@ -1,0 +1,79 @@
+.nfc-bind-flow {
+    margin: 30px 0;
+}
+
+.bind-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.bind-step::after {
+    content: '';
+    position: absolute;
+    left: 35px;
+    top: 60px;
+    width: 2px;
+    height: calc(100% + 16px);
+    background: var(--border-color);
+}
+
+.bind-step:last-child::after {
+    display: none;
+}
+
+.bind-step.completed::after {
+    background: var(--success-color);
+}
+
+.bind-step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--border-color);
+    color: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.bind-step.completed .bind-step-icon {
+    background: var(--success-color);
+}
+
+.bind-step.active .bind-step-icon {
+    background: var(--primary-color);
+    animation: pulse 1.5s infinite;
+}
+
+.bind-step-content h4 {
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.bind-step-content p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.bind-tips {
+    background: var(--bg-light);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.bind-tips p {
+    font-size: 14px;
+    color: var(--primary-dark);
+    margin: 4px 0;
+}

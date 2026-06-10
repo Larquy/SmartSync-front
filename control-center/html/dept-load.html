@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智环引诊 - 科室负载详情</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/analytics.css">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>智环引诊</h1>
+                <p>云端调度中心</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dispatch.html" class="nav-link">调度管理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="emergency.html" class="nav-link">紧急情况</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">数据分析</a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">系统设置</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="btn" style="margin-right: 12px; padding: 6px 12px;" onclick="goBack()">返回</button>
+                    <div>
+                        <h2>科室负载详情</h2>
+                        <p style="font-size: 13px; color: #666; margin-top: 4px;">实时监控各科室负载状态</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <span class="date-info" id="dateInfo">2026-04-29 14:35:28</span>
+                    <button class="btn success" onclick="exportData()">导出数据</button>
+                </div>
+            </header>
+
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <span class="filter-label">时间范围:</span>
+                    <select class="filter-select" onchange="filterData()">
+                        <option>今日</option>
+                        <option>本周</option>
+                        <option>本月</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">排序方式:</span>
+                    <select class="filter-select" onchange="sortData()">
+                        <option value="load">按负载率</option>
+                        <option value="count">按就诊人数</option>
+                        <option value="time">按等待时间</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="refreshData()">刷新</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">统计概览</h4>
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-around;">
+                        <div style="text-align: center; flex: 1; padding: 16px;">
+                            <div style="font-size: 28px; font-weight: 600; color: #333; margin-bottom: 4px;">12</div>
+                            <div style="font-size: 13px; color: #666;">科室总数</div>
+                        </div>
+                        <div style="width: 1px; background: #eee;"></div>
+                        <div style="text-align: center; flex: 1; padding: 16px;">
+                            <div style="font-size: 28px; font-weight: 600; color: #f44336; margin-bottom: 4px;">3</div>
+                            <div style="font-size: 13px; color: #666;">高负载科室</div>
+                        </div>
+                        <div style="width: 1px; background: #eee;"></div>
+                        <div style="text-align: center; flex: 1; padding: 16px;">
+                            <div style="font-size: 28px; font-weight: 600; color: #ff9800; margin-bottom: 4px;">5</div>
+                            <div style="font-size: 13px; color: #666;">中等负载</div>
+                        </div>
+                        <div style="width: 1px; background: #eee;"></div>
+                        <div style="text-align: center; flex: 1; padding: 16px;">
+                            <div style="font-size: 28px; font-weight: 600; color: #4caf50; margin-bottom: 4px;">4</div>
+                            <div style="font-size: 13px; color: #666;">正常负载</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">科室负载列表</h4>
+                    <span style="font-size: 12px; color: #666;">实时更新</span>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>科室名称</th>
+                                <th>当前就诊人数</th>
+                                <th>最大容量</th>
+                                <th>负载率</th>
+                                <th>平均等待时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>检验科</td>
+                                <td>156</td>
+                                <td>170</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill danger" style="width: 92%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">92%</span>
+                                </td>
+                                <td>35分钟</td>
+                                <td><span class="status-badge danger">高负载</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('检验科')">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>影像科</td>
+                                <td>142</td>
+                                <td>160</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill danger" style="width: 89%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">89%</span>
+                                </td>
+                                <td>28分钟</td>
+                                <td><span class="status-badge danger">高负载</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('影像科')">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>心内科</td>
+                                <td>98</td>
+                                <td>120</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill warning" style="width: 82%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">82%</span>
+                                </td>
+                                <td>22分钟</td>
+                                <td><span class="status-badge warning">中等</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('心内科')">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>内科</td>
+                                <td>85</td>
+                                <td>100</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill warning" style="width: 85%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">85%</span>
+                                </td>
+                                <td>18分钟</td>
+                                <td><span class="status-badge warning">中等</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('内科')">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>外科</td>
+                                <td>68</td>
+                                <td>100</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill warning" style="width: 68%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">68%</span>
+                                </td>
+                                <td>12分钟</td>
+                                <td><span class="status-badge normal">正常</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('外科')">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>急诊科</td>
+                                <td>45</td>
+                                <td>60</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill warning" style="width: 75%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">75%</span>
+                                </td>
+                                <td>8分钟</td>
+                                <td><span class="status-badge warning">中等</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('急诊科')">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>妇产科</td>
+                                <td>52</td>
+                                <td>80</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill warning" style="width: 65%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">65%</span>
+                                </td>
+                                <td>15分钟</td>
+                                <td><span class="status-badge normal">正常</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('妇产科')">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>儿科</td>
+                                <td>38</td>
+                                <td>70</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill normal" style="width: 54%"></div>
+                                    </div>
+                                    <span style="margin-left: 8px;">54%</span>
+                                </td>
+                                <td>10分钟</td>
+                                <td><span class="status-badge normal">正常</span></td>
+                                <td><button class="btn-sm" onclick="viewDetail('儿科')">查看</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">负载趋势</h4>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-y-axis">
+                        <span>100%</span>
+                        <span>75%</span>
+                        <span>50%</span>
+                        <span>25%</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="line-chart">
+                        <svg viewBox="0 0 800 180" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="loadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="rgba(244, 67, 54, 0.3)" />
+                                    <stop offset="100%" stop-color="rgba(244, 67, 54, 0)" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 40,140 Q 120,120 200,135 T 360,110 T 520,95 T 680,125 T 760,115" fill="none"
+                                stroke="#f44336" stroke-width="2" stroke-linecap="round" />
+                            <path
+                                d="M 40,180 L 40,140 Q 120,120 200,135 T 360,110 T 520,95 T 680,125 T 760,115 L 760,180 Z"
+                                fill="url(#loadGradient)" />
+                            <circle cx="520" cy="95" r="4" fill="#f44336" />
+                            <circle cx="760" cy="115" r="4" fill="#f44336" />
+                        </svg>
+                    </div>
+                    <div class="chart-x-axis">
+                        <span>08:00</span>
+                        <span>10:00</span>
+                        <span>12:00</span>
+                        <span>14:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        setInterval(function () {
+            var date = new Date();
+            var timeString = date.toISOString().replace('T', ' ').substring(0, 19);
+            document.getElementById('dateInfo').textContent = timeString;
+        }, 1000);
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        function exportData() {
+            var btn = event.target;
+            btn.innerHTML = '导出中...';
+            btn.disabled = true;
+            setTimeout(function () {
+                btn.innerHTML = '导出数据';
+                btn.disabled = false;
+                alert('科室负载数据导出成功！');
+            }, 1500);
+        }
+
+        function filterData() {
+            alert('筛选功能已触发');
+        }
+
+        function sortData() {
+            alert('排序功能已触发');
+        }
+
+        function refreshData() {
+            var btn = event.target;
+            btn.innerHTML = '刷新中...';
+            btn.disabled = true;
+            setTimeout(function () {
+                btn.innerHTML = '刷新';
+                btn.disabled = false;
+                alert('数据已刷新');
+            }, 1000);
+        }
+
+        function viewDetail(deptName) {
+            window.location.href = 'queue-detail.html?dept=' + encodeURIComponent(deptName);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<div class="page" id="report-detail">
+    <div class="header">
+        <div class="header-left">
+            <div class="back-btn" onclick="showPage('reports')">‹</div>
+            <h2 class="header-title">心电图检查报告</h2>
+        </div>
+        <div class="report-status-badge normal">正常</div>
+    </div>
+    
+    <div class="report-detail-card">
+        <div class="report-header">
+            <div class="report-title">心电图检查报告</div>
+            <div class="report-date">2026-04-18 09:45</div>
+        </div>
+        
+        <div class="report-section">
+            <h3 class="section-title">检查结论</h3>
+            <div class="section-content">
+                <p>窦性心律，心电图未见明显异常。</p>
+            </div>
+        </div>
+        
+        <div class="report-section">
+            <h3 class="section-title">关键指标</h3>
+            <div class="indicators">
+                <div class="indicator-item">
+                    <div class="indicator-label">心率</div>
+                    <div class="indicator-value">78次/分</div>
+                    <div class="indicator-range">(60-100次/分)</div>
+                </div>
+                <div class="indicator-item">
+                    <div class="indicator-label">P-R间期</div>
+                    <div class="indicator-value">160ms</div>
+                    <div class="indicator-range">(120-200ms)</div>
+                </div>
+                <div class="indicator-item">
+                    <div class="indicator-label">QRS时限</div>
+                    <div class="indicator-value">86ms</div>
+                    <div class="indicator-range">(60-100ms)</div>
+                </div>
+                <div class="indicator-item">
+                    <div class="indicator-label">QT/QTc间期</div>
+                    <div class="indicator-value">360/412ms</div>
+                    <div class="indicator-range">(320-440ms)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="report-section">
+            <h3 class="section-title">报告结论</h3>
+            <div class="section-content">
+                <p>心电图大致正常，未见明显异常改变。建议结合临床症状及其他检查结果综合分析。如有不适，请及时复诊。</p>
+            </div>
+        </div>
+        
+        <div class="report-section">
+            <h3 class="section-title">医生建议</h3>
+            <div class="section-content">
+                <ul>
+                    <li>保持规律作息，避免过度劳累</li>
+                    <li>低盐饮食，控制血压</li>
+                    <li>定期监测心率变化</li>
+                    <li>如有胸闷、心悸等症状请及时就医</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="report-footer">
+            <button class="btn btn-primary" onclick="downloadReport()">下载报告</button>
+            <button class="btn btn-secondary" onclick="shareReport()">分享报告</button>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showPage('overview')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </button>
+        <button class="nav-item active" onclick="showPage('reports')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">报告</span>
+        </button>
+        <button class="nav-item" onclick="showPage('reminder')">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">复诊</span>
+        </button>
+        <button class="nav-item" onclick="showPage('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">我的</span>
+        </button>
+    </div>
+</div>

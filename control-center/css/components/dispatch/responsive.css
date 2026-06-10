@@ -1,0 +1,17 @@
+@media (max-width: 768px) {
+    .preemption-visualization {
+        flex-direction: column;
+    }
+
+    .preemption-log {
+        flex: none;
+    }
+
+    .dispatch-grid {
+        flex-direction: column;
+    }
+
+    .dispatch-metrics {
+        flex: none;
+    }
+}
