@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智环引诊 - 任务序列监控</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/task-monitor.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>智环引诊</h1>
+                <p>云端调度中心</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dispatch.html" class="nav-link">调度管理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="bracelet.html" class="nav-link">手环管理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="task-monitor.html" class="nav-link active">任务监控</a>
+                </li>
+                <li class="nav-item">
+                    <a href="emergency.html" class="nav-link">紧急情况</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">数据分析</a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">系统设置</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部头部 -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2>任务序列监控</h2>
+                    <p style="font-size: 13px; color: #666; margin-top: 4px;">实时监控患者任务队列变更</p>
+                </div>
+                <div class="header-right">
+                    <span class="date-info" id="dateInfo">2026-06-17 14:35:28</span>
+                    <button class="refresh-btn" onclick="refreshData()">刷新</button>
+                </div>
+            </header>
+
+            <!-- KPI指标卡片 -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">执行中任务</div>
+                    <div class="kpi-value" id="executingCount">28</div>
+                    <div class="kpi-change"><span>↑</span>较上小时 +5</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">今日插入</div>
+                    <div class="kpi-value" id="insertCount">42</div>
+                    <div class="kpi-change warning"><span>!</span>异常变更</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">完成任务</div>
+                    <div class="kpi-value" id="completedCount">156</div>
+                    <div class="kpi-change positive"><span>OK</span>完成率 92%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">活跃子站</div>
+                    <div class="kpi-value" id="activeStations">24</div>
+                    <div class="kpi-change"><span>在线</span>24/28</div>
+                </div>
+            </div>
+
+            <!-- 主要内容网格 -->
+            <div class="content-grid">
+                <!-- 左侧：患者任务队列 -->
+                <div class="content-card task-list-card">
+                    <div class="card-header">
+                        <h3 class="card-title">患者任务队列</h3>
+                        <div class="filter-bar">
+                            <select class="filter-select" id="deptFilter" onchange="filterTasks()">
+                                <option value="">全部科室</option>
+                                <option value="心内科">心内科</option>
+                                <option value="内分泌科">内分泌科</option>
+                                <option value="消化内科">消化内科</option>
+                                <option value="内科">内科</option>
+                                <option value="外科">外科</option>
+                            </select>
+                            <select class="filter-select" id="statusFilter" onchange="filterTasks()">
+                                <option value="">全部状态</option>
+                                <option value="executing">执行中</option>
+                                <option value="inserted">已插入</option>
+                                <option value="paused">已暂停</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="task-list" id="taskList">
+                        <!-- 动态填充 -->
+                    </div>
+                </div>
+
+                <!-- 右侧：实时变更日志 -->
+                <div class="content-card event-log-card">
+                    <div class="card-header">
+                        <h3 class="card-title">实时变更日志</h3>
+                        <button class="btn-text" onclick="clearLogs()">清空</button>
+                    </div>
+                    <div class="event-log" id="eventLog">
+                        <!-- 动态填充 -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 任务详情弹窗 -->
+    <div class="modal" id="taskDetailModal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4>任务详情</h4>
+                <button class="modal-close" onclick="closeTaskDetail()">&times;</button>
+            </div>
+            <div class="modal-body" id="taskDetailContent">
+                <!-- 动态填充 -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeTaskDetail()">关闭</button>
+                <button class="btn btn-primary" onclick="openTaskAdjustModal()">调整任务</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 任务调整弹窗 -->
+    <div class="modal" id="taskAdjustModal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4>调整任务序列</h4>
+                <button class="modal-close" onclick="closeTaskAdjustModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="adjust-section">
+                    <div class="adjust-section-title">当前任务序列</div>
+                    <div class="task-sequence-list" id="adjustSequenceList">
+                        <!-- 动态填充任务列表 -->
+                    </div>
+                </div>
+
+                <div class="adjust-section">
+                    <div class="adjust-section-title">操作选项</div>
+
+                    <div class="adjust-actions">
+                        <div class="action-group">
+                            <label class="action-label">插入新任务</label>
+                            <div class="action-input-group">
+                                <input type="text" class="action-input" id="newTaskName" placeholder="输入任务名称">
+                                <select class="action-select" id="insertPosition">
+                                    <option value="before">在当前任务前插入</option>
+                                    <option value="after">在当前任务后插入</option>
+                                </select>
+                                <button class="btn btn-primary btn-sm" onclick="insertNewTask()">插入</button>
+                            </div>
+                        </div>
+
+                        <div class="action-group">
+                            <label class="action-label">调整顺序</label>
+                            <div class="action-input-group">
+                                <select class="action-select" id="moveFromTask">
+                                    <option value="">选择要移动的任务</option>
+                                </select>
+                                <select class="action-select" id="moveToPosition">
+                                    <option value="">移动到位置</option>
+                                </select>
+                                <button class="btn btn-secondary btn-sm" onclick="moveTask()">移动</button>
+                            </div>
+                        </div>
+
+                        <div class="action-group">
+                            <label class="action-label">删除任务</label>
+                            <div class="action-input-group">
+                                <select class="action-select" id="deleteTask">
+                                    <option value="">选择要删除的任务</option>
+                                </select>
+                                <button class="btn btn-danger btn-sm" onclick="deleteSelectedTask()">删除</button>
+                            </div>
+                        </div>
+
+                        <div class="action-group">
+                            <label class="action-label">任务状态</label>
+                            <div class="action-input-group">
+                                <button class="btn btn-warning btn-sm" id="btnPauseTask"
+                                    onclick="togglePauseTask()">暂停任务</button>
+                                <button class="btn btn-success btn-sm" id="btnResumeTask"
+                                    onclick="togglePauseTask()">恢复任务</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeTaskAdjustModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveTaskAdjustment()">保存调整</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/task-monitor.js"></script>
+</body>
+
+</html>
